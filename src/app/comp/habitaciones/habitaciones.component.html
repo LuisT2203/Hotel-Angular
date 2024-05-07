@@ -1,0 +1,28 @@
+<div class="row">
+
+    <h3>Listado de Habitaciones</h3>
+    <button class="btn btn-primary btn-sm">Nuevo</button>
+    <table>
+      <thead>
+        <tr>
+
+          <th>Id</th>
+          <th>Descripcion</th>
+          <th>Estado</th>
+          <th>Precio</th>
+          <td>Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (h of habitaciones; track h.nro_habi){
+        <tr>
+          <th>{{h.nro_habi}}</th>
+          <th>{{h.descripcion}}</th>
+          <th>{{h.estado}}</th>
+          <th>{{h.precio_habi}}</th>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+</div>
