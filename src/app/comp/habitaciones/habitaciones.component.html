@@ -1,8 +1,11 @@
 <div class="row">
 
+
+  <div class="col-12 col-sm-6">
     <h3>Listado de Habitaciones</h3>
-    <button class="btn btn-primary btn-sm">Nuevo</button>
-    <table>
+
+    <button class="btn btn-primary ">Nuevo</button>
+    <table class="table">
       <thead>
         <tr>
 
@@ -20,9 +23,31 @@
           <th>{{h.descripcion}}</th>
           <th>{{h.estado}}</th>
           <th>{{h.precio_habi}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(h)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(h)">Eliminar</button>
+          </th>
         </tr>
         }
       </tbody>
     </table>
-
+  </div>
+  <div class="col-12 col-sm-6 p-3">
+    <h3>{{textoBoton}} Habitacion</h3>
+    <br>
+    <form #HabitacionForm="ngForm" (ngSubmit)="agregar(); HabitacionForm.reset()">
+      <input type="hidden" name="nro_habi" id="nro_habi" [(ngModel)]="habitacion.nro_habi">
+      <label class="form-label" for="descripcion">Descripcion</label>
+      <input type="text" id="descripcion" name="descripcion" class="form-control" [(ngModel)]="habitacion.descripcion" >
+      <label class="form-label" for="estado">Estado</label>
+      <input type="text" id="estado" name="estado" class="form-control" [(ngModel)]="habitacion.estado" >
+      <label class="form-label" for="precio_habi">Precio</label>
+      <input type="text" id="precio_habi" name="precio_habi" class="form-control" [(ngModel)]="habitacion.precio_habi" >
+      <br>
+      <p class="text-center">
+        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
+        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+      </p>
+    </form>
+  </div>
 </div>
