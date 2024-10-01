@@ -1,0 +1,67 @@
+<div class="row">
+
+  <div class="col-12 col-sm-7">
+    <h3>Listado de Habitaciones</h3>
+
+
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th>Id</th>
+          <th>Reserva</th>
+          <th>Precio Servicio</th>
+          <th>Cantidad de dias </th>
+          <th>Precio Habitacion</th>
+          <td>Monto</td>
+          <td>Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of pagos; track p.id_pago){
+        <tr>
+
+          <th>{{p.id_pago}}</th>
+          <th>{{p.reserva.nro_reserva}}</th>
+          <th>{{p.precio}}</th>
+          <th>{{p.cant_dias}}</th>
+          <th>{{p.precio_habi}}</th>
+          <th>{{p.monto}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(p)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(p)">Eliminar</button>
+          </th>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 col-sm-6 p-3">
+    <h3>{{textoBoton}} Pago</h3>
+    <br>
+    <form #PagoForm="ngForm" (ngSubmit)="agregar(); PagoForm.reset()">
+      <input type="hidden" name="id_pago" id="id_pago" [(ngModel)]="pago.id_pago">
+      <label class="form-label" for="reserva">Reserva</label>
+      <select [(ngModel)]="pago.reserva" id="reserva" name="reserva" class="form-control">
+        @for (r of reservas; track r.nro_reserva){
+        <option [ngValue]="r">Nro Reserva:{{r.nro_reserva}}, Nombre {{r.huesped.nombre}} {{r.huesped.apellido}},
+          Cantidad de dias {{r.cant_dias}}, Precio Servicio {{r.servicio.precio}},Precio Habitacion{{r.habitacion.precio_habi}}</option>
+        }
+      </select>
+      <label class="form-label" for="precio">Precio Servicio</label>
+      <input type="text" id="precio" name="precio" class="form-control" [(ngModel)]="pago.precio" >
+      <label class="form-label" for="precio_habi">Precio Habitacion</label>
+      <input type="text" id="precio_habi" name="precio_habi" class="form-control" [(ngModel)]="pago.precio_habi" >
+      <label class="form-label" for="cant_dias">Cantidad de dias</label>
+      <input type="text" id="cant_dias" name="cant_dias" class="form-control" [(ngModel)]="pago.cant_dias" >
+      <button (click)="calcularMonto()">Calcular Monto</button>
+      <label class="form-label" for="monto">Monto</label>
+      <input type="text" id="monto" name="monto" class="form-control" [(ngModel)]="pago.monto">
+      <br>
+      <p class="text-center">
+        <button type="submit" class="btn btn-success btn-sm">Grabar</button>&nbsp;
+        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+      </p>
+    </form>
+  </div>
+</div>

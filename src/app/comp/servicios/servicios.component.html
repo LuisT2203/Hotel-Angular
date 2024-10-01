@@ -1,0 +1,53 @@
+<div class="row">
+
+
+  <div class="col-12 col-sm-6">
+    <h3>Listado de Servicios</h3>
+
+
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th>Id</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <td>Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (s of servicios; track s.id_servicio){
+        <tr>
+          <th>{{s.id_servicio}}</th>
+          <th>{{s.tipo}}</th>
+          <th>{{s.nombre}}</th>
+          <th>{{s.precio}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(s)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(s)">Eliminar</button>
+          </th>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 col-sm-6 p-3">
+    <h3>{{textoBoton}} Servicio</h3>
+    <br>
+    <form #ServicioForm="ngForm" (ngSubmit)="agregar(); ServicioForm.reset()">
+      <input type="hidden" name="id_servicio" id="id_servicio" [(ngModel)]="servicio.id_servicio">
+      <label class="form-label" for="tipo">Tipo</label>
+      <input type="text" id="tipo" name="tipo" class="form-control" [(ngModel)]="servicio.tipo" >
+      <label class="form-label" for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" >
+      <label class="form-label" for="precio">Precio</label>
+      <input type="text" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" >
+      <br>
+      <p class="text-center">
+        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
+        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+      </p>
+    </form>
+  </div>
+</div>

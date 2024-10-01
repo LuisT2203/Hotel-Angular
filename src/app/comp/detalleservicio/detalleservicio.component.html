@@ -1,0 +1,67 @@
+<div class="row">
+
+
+  <div class="col-12 col-sm-6">
+    <h3>Listado de Detalle Servicio</h3>
+
+    
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th>Id Detalle</th>
+          <th>Reserva</th>
+          <th>Servicio</th>
+          <th>Empleado</th>
+          <th>Estado</th>
+          <td >Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (ds of detalleservicios; track ds.id_detaserv){
+        <tr>
+          <th>{{ds.id_detaserv}}</th>
+          <th>Nro {{ds.reserva.nro_reserva}} de {{ds.reserva.huesped.nombre}} </th>
+          <th>{{ds.servicio.nombre}}</th>
+          <th>{{ds.empleado.nombre_emp}}</th>
+          <th>{{ds.estado_serv}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(ds)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(ds)">Eliminar</button>
+          </th>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 col-sm-6 p-3">
+    <h3>{{textoBoton}} Servicio</h3>
+    <br>
+    <form #DetalleServicioForm="ngForm" (ngSubmit)="agregar(); DetalleServicioForm.reset()">
+      <input type="hidden" name="id_detaserv" id="id_detaserv" [(ngModel)]="detalleservicio.id_detaserv">
+      <label class="form-label" for="reserva">Reserva</label>
+      <select [(ngModel)]="detalleservicio.reserva" id="reserva" name="reserva" class="form-control">
+        @for (r of reservas; track r.nro_reserva){
+        <option [ngValue]="r">{{r.nro_reserva}} {{r.huesped.nombre}} {{r.huesped.apellido}} {{r.habitacion.descripcion}}</option>
+        }
+      </select>
+      <label class="form-label" for="servicio">Servicio</label>
+      <select [(ngModel)]="detalleservicio.servicio" id="servicio" name="servicio" class="form-control">
+        @for (s of servicios; track s.id_servicio){
+        <option [ngValue]="s">{{s.nombre}} </option>
+        }
+      </select>
+      <label class="form-label" for="empleado">Empleados</label>
+      <select [(ngModel)]="detalleservicio.empleado" id="empleado" name="empleado" class="form-control">
+        @for (e of empleados; track e.id_emp){
+        <option [ngValue]="e">{{e.nombre_emp}} </option>
+        }
+      </select>
+      <br>
+      <p class="text-center">
+        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
+        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+      </p>
+    </form>
+  </div>
+</div>

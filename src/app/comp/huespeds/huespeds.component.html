@@ -1,0 +1,67 @@
+<div class="row">
+
+
+  <div class="col-12 col-sm-9">
+    <h3>Listado de huespeds</h3>
+
+    
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Direccion</th>
+          <th>email</th>
+          <th>Sexo</th>
+          <th>Edad</th>
+          <td >Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (h of huespedes; track h.id_huesped){
+        <tr>
+          <th>{{h.id_huesped}}</th>
+          <th>{{h.nombre}}</th>
+          <th>{{h.apellido}}</th>
+          <th>{{h.direccion}}</th>
+          <th>{{h.email}}</th>
+          <th>{{h.sexo}}</th>
+          <th>{{h.edad}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(h)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(h)">Eliminar</button>
+          </th>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 col-sm-3 p-3 d-flex flex-column align-items-center ">
+
+    <h3 >{{textoBoton}} Huesped</h3>
+    <br>
+
+    <form #HuespedForm="ngForm" (ngSubmit)="agregar(); HuespedForm.reset()" >
+      <input type="hidden" name="id_huesped" id="id_huesped" [(ngModel)]="huesped.id_huesped">
+      <label class="form-label" for="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="huesped.nombre" >
+      <label class="form-label" for="apellido">Apellido</label>
+      <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="huesped.apellido" >
+      <label class="form-label" for="direccion">Direccion</label>
+      <input type="text" id="direccion" name="direccion" class="form-control" [(ngModel)]="huesped.direccion" >
+      <label class="form-label" for="email">Email</label>
+      <input type="text" id="email" name="email" class="form-control" [(ngModel)]="huesped.email" >
+      <label class="form-label" for="sexo">Sexo</label>
+      <input type="text" id="sexo" name="sexo" class="form-control" [(ngModel)]="huesped.sexo" >
+      <label class="form-label" for="edad">Edad</label>
+      <input type="text" id="edad" name="edad" class="form-control" [(ngModel)]="huesped.edad" >
+      <br>
+      <p class="text-center">
+        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
+        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+      </p>
+    </form>
+  </div>
+</div>

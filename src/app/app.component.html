@@ -1,12 +1,138 @@
-<header class="container-fluid">
-  <app-navegador></app-navegador>
-</header>
 
-<div class="container m-4" >
-  <h1 class="text-primary">{{title}}</h1>
+
+<app-navegador></app-navegador>
+
   <router-outlet></router-outlet>
-</div>
-<footer class="container-fluid bg-dark py-4 text-primary-ligh">
-  Hotel Lima 2024
+
+
+<footer class="footer">
+  <div class="footer_top">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-3 col-md-6 col-lg-3">
+                  <div class="footer_widget">
+                      <h3 class="footer_title">
+                          address
+                      </h3>
+                      <p class="footer_text"> 200, Green road, Mongla, <br>
+                          New Yor City USA</p>
+                      <a href="#" class="line-button">Get Direction</a>
+                  </div>
+              </div>
+              <div class="col-xl-3 col-md-6 col-lg-3">
+                  <div class="footer_widget">
+                      <h3 class="footer_title">
+                          Reservation
+                      </h3>
+                      <p class="footer_text">+10 367 267 2678 <br>
+                          reservationmontana.com</p>
+                  </div>
+              </div>
+              <div class="col-xl-2 col-md-6 col-lg-2">
+                  <div class="footer_widget">
+                      <h3 class="footer_title">
+                          Navigation
+                      </h3>
+                      <ul>
+                          <li><a href="#">Home</a></li>
+                          <li><a href="#">Rooms</a></li>
+                          <li><a href="#">About</a></li>
+                          <li><a href="#">News</a></li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-xl-4 col-md-6 col-lg-4">
+                  <div class="footer_widget">
+                      <h3 class="footer_title">
+                          Newsletter
+                      </h3>
+
+                      <p class="newsletter_text">Subscribe newsletter to get updates</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="copy-right_text">
+      <div class="container">
+          <div class="footer_border"></div>
+          <div class="row">
+              <div class="col-xl-8 col-md-7 col-lg-9">
+
+
+              </div>
+              <div class="col-xl-4 col-md-5 col-lg-3">
+                  <div class="socail_links">
+                      <ul>
+                          <li>
+                              <a href="#">
+                                  <i class="fa fa-facebook-square"></i>
+                              </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <i class="fa fa-twitter"></i>
+                              </a>
+                          </li>
+                          <li>
+                              <a href="#">
+                                  <i class="fa fa-instagram"></i>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </footer>
+
+<!-- link that opens popup -->
+
+<!-- form itself end-->
+
+
+<!-- JS here -->
+<script src="/assets/static/js/vendor/modernizr-3.5.0.min.js"></script>
+<script src="/assets/static/js/vendor/jquery-1.12.4.min.js"></script>
+<script src="/assets/static/js/popper.min.js"></script>
+<script src="/assets/static/js/bootstrap.min.js"></script>
+<script src="/assets/static/js/owl.carousel.min.js"></script>
+<script src="/assets/static/js/isotope.pkgd.min.js"></script>
+<script src="/assets/static/js/ajax-form.js"></script>
+<script src="/assets/static/js/waypoints.min.js"></script>
+<script src="/assets/static/js/jquery.counterup.min.js"></script>
+<script src="/assets/static/js/imagesloaded.pkgd.min.js"></script>
+<script src="/assets/static/js/scrollIt.js"></script>
+<script src="/assets/static/js/jquery.scrollUp.min.js"></script>
+<script src="/assets/static/js/wow.min.js"></script>
+<script src="/assets/static/js/nice-select.min.js"></script>
+<script src="/assets/static/js/jquery.slicknav.min.js"></script>
+<script src="/assets/static/js/jquery.magnific-popup.min.js"></script>
+<script src="/assets/static/js/plugins.js"></script>
+<script src="/assets/static/js/gijgo.min.js"></script>
+
+<!--contact js-->
+<script src="/assets/static/js/contact.js"></script>
+<script src="/assets/static/js/jquery.ajaxchimp.min.js"></script>
+<script src="/assets/static/js/jquery.form.js"></script>
+<script src="/assets/static/js/jquery.validate.min.js"></script>
+<script src="/assets/static/js/mail-script.js"></script>
+
+<script src="/assets/static/js/main.js"></script>
+<script>
+  $('#datepicker').datepicker({
+      iconsLibrary: 'fontawesome',
+      icons: {
+       rightIcon: '<span class="fa fa-caret-down"></span>'
+   }
+  });
+  $('#datepicker2').datepicker({
+      iconsLibrary: 'fontawesome',
+      icons: {
+       rightIcon: '<span class="fa fa-caret-down"></span>'
+   }
+
+  });
+</script>
 

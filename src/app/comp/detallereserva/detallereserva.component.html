@@ -1,0 +1,80 @@
+<div class="row">
+
+
+  <div class="col-12 col-sm-9">
+    <h3>Listado de reservas</h3>
+
+    
+    <table class="table">
+      <thead>
+        <tr>
+
+          <th>Id Detalle</th>
+          <th>Fecha Ingreso</th>
+          <th>Hora de entrada</th>
+          <th>Fecha Salida</th>
+          <th>Hora de salida</th>
+          <th>Habitacion</th>
+          <th>Reserva</th>
+          <td>Acciones</td>
+        </tr>
+      </thead>
+      <tbody>
+        @for (dr of detallereservas; track dr.id_detareser){
+        <tr>
+          <th>{{dr.id_detareser}}</th>
+          <th>{{dr.fecha_ingreso}}</th>
+          <th>{{dr.hora_entrada}}</th>
+          <th>{{dr.fecha_salida}}</th>
+          <th>{{dr.hora_salida}}</th>
+          <th>{{dr.habitacion.descripcion}}</th>
+          <th>{{dr.reserva.huesped.nombre}}</th>
+          <th>
+            <button class="btn btn-warning" (click)="editar(dr)">Editar</button>&nbsp;
+            <button class="btn btn-danger" (click)="eliminar(dr)">Eliminar</button>
+          </th>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="col-12 col-sm-5 p-3 d-flex flex-column align-items-center ">
+
+    <h3>{{textoBoton}} Detalle Reserva</h3>
+    <br>
+    <form #DetalleReservaForm="ngForm" (ngSubmit)="agregar(); DetalleReservaForm.reset()">
+      <input type="hidden" name="id_detareser" id="id_detareser" [(ngModel)]="detallereserva.id_detareser">
+      <label class="form-label" for="reserva">Reserva</label>
+      <select [(ngModel)]="detallereserva.reserva" id="reserva" name="reserva" class="form-control">
+        @for (r of reservas; track r.nro_reserva){
+        <option [ngValue]="r">{{r.nro_reserva}} {{r.huesped.nombre}} {{r.huesped.apellido}} {{r.habitacion.descripcion}}</option>
+        }
+      </select>
+      <label class="form-label" for="fecha_ingreso">Fecha Ingreso</label>
+      <input type="date" id="fecha_ingreso" name="fecha_ingreso" class="form-control"
+        [(ngModel)]="detallereserva.fecha_ingreso">
+      <label class="form-label" for="hora_entrada">Hora entrada</label>
+      <input type="time" id="hora_entrada" name="hora_entrada" class="form-control"
+        [(ngModel)]="detallereserva.hora_entrada">
+      <label class="form-label" for="fecha_salida">Fecha Salida </label>
+      <input type="date" id="fecha_salida" name="fecha_salida" class="form-control"
+        [(ngModel)]="detallereserva.fecha_salida">
+      <label class="form-label" for="hora_salida">Hora Salida</label>
+      <input type="time" id="hora_salida" name="hora_salida" class="form-control"
+        [(ngModel)]="detallereserva.hora_salida">
+      <label class="form-label" for="habitacion">Habitacion</label>
+      <select [(ngModel)]="detallereserva.habitacion" id="habitacion" name="habitacion" class="form-control">
+        @for (h of habitaciones; track h.nro_habi){
+        <option [ngValue]="h">{{h.descripcion}}</option>
+        }
+      </select>
+
+        <br>
+        <p class="text-center">
+          <button type="submit" class="btn btn-success btn-sm">Grabar</button>&nbsp;
+          <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+        </p>
+    </form>
+
+  </div>
+</div>
