@@ -1,9 +1,25 @@
-<div class="row">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+  body {
+      background-color: #f8f9fa; /* Agrega un color de fondo a la página */
+  }
 
+  .container {
+      margin-top: 50px; /* Ajusta el margen superior para centrar la tabla */
+  }
+</style>
+<h1 style="text-align: center;">Listado de Reservas</h1>
 
-  <div class="col-12 col-sm-7">
-    <h3>Listado de reservas</h3>
+<div class="container-lg">
+  <div class="button d-flex justify-content-end mb-3">
+    <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
+      id="btn_nuevo" class="btn btn-success">
+      <i class="bi bi-person-fill-add"></i>
+      <span>Agregar Nueva Reserva</span>
+    </a>
 
+  </div>
 
     <table class="table">
       <thead>
@@ -18,36 +34,45 @@
           <th>Empleado</th>
           <th>Servicio</th>
           <th>Estado Reserva</th>
-          <td >Acciones</td>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for (r of reservas; track r.nro_reserva){
         <tr>
-          <th>{{r.nro_reserva}}</th>
-          <th>{{r.fecha_reserva}}</th>
-          <th>{{r.cant_personas}}</th>
-          <th>{{r.cant_dias}}</th>
-          <th>{{r.habitacion.descripcion}}</th>
-          <th>{{r.huesped.nombre}}</th>
-          <th>{{r.empleado.nombre_emp}}</th>
-          <th>{{r.servicio.nombre}}</th>
-          <th>{{r.estado_reserva}}</th>
-          
+          <td>{{r.nro_reserva}}</td>
+          <td>{{r.fecha_reserva}}</td>
+          <td>{{r.cant_personas}}</td>
+          <td>{{r.cant_dias}}</td>
+          <td>{{r.habitacion.descripcion}}</td>
+          <td>{{r.huesped.nombre}}</td>
+          <td>{{r.empleado.nombre_emp}}</td>
+          <td>{{r.servicio.nombre}}</td>
+          <td>{{r.estado_reserva}}</td>
+
           <th>
-            <button class="btn btn-warning" (click)="editar(r)">Editar</button>&nbsp;
-            <button class="btn btn-danger" (click)="eliminar(r)">Eliminar</button>
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
+                  (click)="editar(r)">
+            <i class="bi bi-pencil"></i>
+          </button>&nbsp;
+          <button class="btn btn-danger" (click)="eliminar(r)">
+            <i class="bi bi-trash"></i>
+          </button>
           </th>
         </tr>
         }
       </tbody>
     </table>
   </div>
-  <div class="col-12 col-sm-5 p-3 d-flex flex-column align-items-center ">
-
-    <h3 >{{textoBoton}} Reserva</h3>
-    <br>
-
+  <div class="container mt-4">
+    <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nueva Reserva' : 'Editar Reserva'}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
     <form #ReservaForm="ngForm" (ngSubmit)="agregar(); ReservaForm.reset()" >
       <input type="hidden" name="nro_reserva" id="nro_reserva" [(ngModel)]="reserva.nro_reserva">
       <label class="form-label" for="fecha_reserva">Fecha reserva</label>
@@ -68,26 +93,29 @@
           <option [ngValue]="h">{{h.descripcion}}</option>
         }
       </select>
-
-      <label class="form-label" for="empleado">Empleado</label>
-      <select [(ngModel)]="reserva.empleado" id="empleado" name="empleado" class="form-control" >
-        @for (e of empleados; track e.id_emp){
-          <option [ngValue]="e">{{e.nombre_emp}}</option>
-        }
-      </select>
       <label class="form-label" for="servicio">Servicio</label>
       <select [(ngModel)]="reserva.servicio" id="servicio" name="servicio" class="form-control" >
         @for (s of servicios; track s.id_servicio){
           <option [ngValue]="s">{{s.nombre}}</option>
         }
       </select>
+      <label class="form-label" for="empleado">Empleado</label>
+      <select [(ngModel)]="reserva.empleado" id="empleado" name="empleado" class="form-control" >
+        @for (e of empleados; track e.id_emp){
+          <option [ngValue]="e">{{e.nombre_emp}}</option>
+        }
+      </select>
+
       <label class="form-label" for="estado_reserva">Estado Reserva</label>
       <input type="text" id="estado_reserva" name="estado_reserva" class="form-control" [(ngModel)]="reserva.estado_reserva" >
       <br>
       <p class="text-center">
-        <button type="submit" class="btn btn-success btn-sm">Grabar</button>&nbsp;
+        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
         <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
       </p>
     </form>
   </div>
+</div>
+</div>
+</div>
 </div>

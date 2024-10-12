@@ -24,6 +24,11 @@ export class ServiciosComponent implements OnInit {
   ngOnInit(): void {
     this.getservicios();
   }
+  resetForm(){
+    this.servicio = new Servicio();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   getservicios(){
     this.service.getServicios().subscribe(
       (result:any)=>this.servicios=result
@@ -31,6 +36,7 @@ export class ServiciosComponent implements OnInit {
   }
   editar(ser: IServicio){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.service.getServicio(ser.id_servicio).subscribe(
       (data:any)=> this.servicio = data
     );

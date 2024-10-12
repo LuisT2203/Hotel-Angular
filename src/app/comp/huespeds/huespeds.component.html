@@ -1,10 +1,27 @@
-<div class="row">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+  body {
+      background-color: #f8f9fa;
+  }
+
+  .container {
+      margin-top: 50px;
+  }
+</style>
+<h1 style="text-align: center;">Listado de Huespedes</h1>
+<div class="container-lg">
+  <div class="button d-flex justify-content-end mb-3">
+    <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
+      id="btn_nuevo" class="btn btn-success">
+      <i class="bi bi-person-fill-add"></i>
+      <span>Agregar Nuevo Empleado</span>
+    </a>
+
+  </div>
 
 
-  <div class="col-12 col-sm-9">
-    <h3>Listado de huespeds</h3>
 
-    
     <table class="table">
       <thead>
         <tr>
@@ -16,32 +33,42 @@
           <th>email</th>
           <th>Sexo</th>
           <th>Edad</th>
-          <td >Acciones</td>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for (h of huespedes; track h.id_huesped){
         <tr>
-          <th>{{h.id_huesped}}</th>
-          <th>{{h.nombre}}</th>
-          <th>{{h.apellido}}</th>
-          <th>{{h.direccion}}</th>
-          <th>{{h.email}}</th>
-          <th>{{h.sexo}}</th>
-          <th>{{h.edad}}</th>
+          <td>{{h.id_huesped}}</td>
+          <td>{{h.nombre}}</td>
+          <td>{{h.apellido}}</td>
+          <td>{{h.direccion}}</td>
+          <td>{{h.email}}</td>
+          <td>{{h.sexo}}</td>
+          <td>{{h.edad}}</td>
           <th>
-            <button class="btn btn-warning" (click)="editar(h)">Editar</button>&nbsp;
-            <button class="btn btn-danger" (click)="eliminar(h)">Eliminar</button>
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
+                  (click)="editar(h)">
+            <i class="bi bi-pencil"></i>
+          </button>&nbsp;
+          <button class="btn btn-danger" (click)="eliminar(h)">
+            <i class="bi bi-trash"></i>
+          </button>
           </th>
         </tr>
         }
       </tbody>
     </table>
   </div>
-  <div class="col-12 col-sm-3 p-3 d-flex flex-column align-items-center ">
-
-    <h3 >{{textoBoton}} Huesped</h3>
-    <br>
+  <div class="container mt-4">
+    <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nuevo Huesped' : 'Editar Huesped'}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
 
     <form #HuespedForm="ngForm" (ngSubmit)="agregar(); HuespedForm.reset()" >
       <input type="hidden" name="id_huesped" id="id_huesped" [(ngModel)]="huesped.id_huesped">
@@ -64,4 +91,7 @@
       </p>
     </form>
   </div>
+</div>
+</div>
+</div>
 </div>

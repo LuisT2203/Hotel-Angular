@@ -43,6 +43,11 @@ export class ReservasComponent implements OnInit {
     this. getEmpleados();
     this.getservicios();
   }
+  resetForm(){
+    this.reserva = new Reserva();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   getreservas(){
     this.service.getReservas().subscribe(
       (result:any)=>this.reservas=result
@@ -70,6 +75,7 @@ export class ReservasComponent implements OnInit {
   }
   editar(res: IReserva){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this.service.getReserva(res.nro_reserva).subscribe(
       (data:any)=> {
         this.reserva = data;

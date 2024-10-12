@@ -23,6 +23,11 @@ export class EmpleadosComponent implements OnInit{
   ngOnInit(): void {
     this.getEmpleados();
   }
+  resetForm(){
+    this.empleado = new Empleado();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
 
   getEmpleados(){
     this.service.getEmpleados().subscribe(
@@ -31,6 +36,7 @@ export class EmpleadosComponent implements OnInit{
   }
   editar(emp: IEmpleado){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.service.getEmpleado(emp.id_emp).subscribe(
       (data:any)=> this.empleado = data
     );
@@ -41,7 +47,7 @@ export class EmpleadosComponent implements OnInit{
       this.service.insertarEmpleado(this.empleado).subscribe(
           (resp)=>{
             this.getEmpleados();
-            this.insUpd=false;
+            this.resetForm();
 
 
           }
@@ -51,13 +57,12 @@ export class EmpleadosComponent implements OnInit{
       this.service.actualizarEmpleado(this.empleado).subscribe(
         (resp)=>{
           this.getEmpleados();
-          this.insUpd=true;
+          this.resetForm();
 
 
     }
   );
   }
-  this.textoBoton ="Agregar";
  }
  eliminar(emp: IEmpleado) {
   if (confirm("¿Estás seguro de eliminar este empleado?")) {

@@ -34,6 +34,11 @@ export class DetallereservaComponent  implements OnInit{
     this.getHabitaciones();
 
   }
+  resetForm(){
+    this.detallereserva = new DetalleReserva();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   getreservas(){
     this.serviceR.getReservas().subscribe(
       (result:any)=>this.reservas=result
@@ -51,6 +56,7 @@ export class DetallereservaComponent  implements OnInit{
   }
   editar(dere: IDetalleReserva){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.detaService.getDetallereserva(dere.id_detareser).subscribe(
       (data:any)=> {
         this.detallereserva = data;

@@ -25,6 +25,11 @@ export class HuespedsComponent implements OnInit {
   ngOnInit(): void {
     this.gethuespedes();
   }
+  resetForm(){
+    this.huesped = new Huesped();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   gethuespedes(){
     this.service.getHuespedes().subscribe(
       (result:any)=>this.huespedes=result
@@ -32,6 +37,7 @@ export class HuespedsComponent implements OnInit {
   }
   editar(hue: IHuesped){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.service.getHuesped(hue.id_huesped).subscribe(
       (data:any)=> this.huesped = data
     );

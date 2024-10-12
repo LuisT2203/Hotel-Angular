@@ -1,10 +1,27 @@
-<div class="row">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+  body {
+      background-color: #f8f9fa; /* Agrega un color de fondo a la página */
+  }
+
+  .container {
+      margin-top: 50px; /* Ajusta el margen superior para centrar la tabla */
+  }
+</style>
+<h1 style="text-align: center;">Listado de Detalle Servicio</h1>
+
+<div class="container-lg">
+  <div class="button d-flex justify-content-end mb-3">
+    <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
+      id="btn_nuevo" class="btn btn-success">
+      <i class="bi bi-person-fill-add"></i>
+      <span>Agregar Nuevo Empleado</span>
+    </a>
+
+  </div>
 
 
-  <div class="col-12 col-sm-6">
-    <h3>Listado de Detalle Servicio</h3>
-
-    
     <table class="table">
       <thead>
         <tr>
@@ -14,35 +31,48 @@
           <th>Servicio</th>
           <th>Empleado</th>
           <th>Estado</th>
-          <td >Acciones</td>
+          <th >Acciones</th>
         </tr>
       </thead>
       <tbody>
         @for (ds of detalleservicios; track ds.id_detaserv){
         <tr>
-          <th>{{ds.id_detaserv}}</th>
-          <th>Nro {{ds.reserva.nro_reserva}} de {{ds.reserva.huesped.nombre}} </th>
-          <th>{{ds.servicio.nombre}}</th>
-          <th>{{ds.empleado.nombre_emp}}</th>
-          <th>{{ds.estado_serv}}</th>
+          <td>{{ds.id_detaserv}}</td>
+          <td>Nro {{ds.reserva.nro_reserva}} de {{ds.reserva.huesped.nombre}} </td>
+          <td>{{ds.servicio.nombre}}</td>
+          <td>{{ds.empleado.nombre_emp}}</td>
+          <td>{{ds.estado_serv}}</td>
           <th>
-            <button class="btn btn-warning" (click)="editar(ds)">Editar</button>&nbsp;
-            <button class="btn btn-danger" (click)="eliminar(ds)">Eliminar</button>
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
+            (click)="editar(ds)">
+      <i class="bi bi-pencil"></i>
+    </button>&nbsp;
+    <button class="btn btn-danger" (click)="eliminar(ds)">
+      <i class="bi bi-trash"></i>
+    </button>
           </th>
         </tr>
         }
       </tbody>
     </table>
   </div>
-  <div class="col-12 col-sm-6 p-3">
-    <h3>{{textoBoton}} Servicio</h3>
-    <br>
+  <div class="container mt-4">
+    <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nuevo Detalle Servicio' : 'Editar Detalle Servicio'}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
     <form #DetalleServicioForm="ngForm" (ngSubmit)="agregar(); DetalleServicioForm.reset()">
       <input type="hidden" name="id_detaserv" id="id_detaserv" [(ngModel)]="detalleservicio.id_detaserv">
       <label class="form-label" for="reserva">Reserva</label>
       <select [(ngModel)]="detalleservicio.reserva" id="reserva" name="reserva" class="form-control">
         @for (r of reservas; track r.nro_reserva){
-        <option [ngValue]="r">{{r.nro_reserva}} {{r.huesped.nombre}} {{r.huesped.apellido}} {{r.habitacion.descripcion}}</option>
+        <option [ngValue]="r">{{r.nro_reserva}} {{r.huesped.nombre}} {{r.huesped.apellido}} {{r.habitacion.descripcion}}
+
+        </option>
         }
       </select>
       <label class="form-label" for="servicio">Servicio</label>
@@ -57,6 +87,8 @@
         <option [ngValue]="e">{{e.nombre_emp}} </option>
         }
       </select>
+      <label class="form-label" for="empleado">Estado</label>
+      <input [(ngModel)]="detalleservicio.estado_serv" id="estado_serv" name="estado_serv" class="form-control">
       <br>
       <p class="text-center">
         <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
@@ -64,4 +96,7 @@
       </p>
     </form>
   </div>
+</div>
+</div>
+</div>
 </div>

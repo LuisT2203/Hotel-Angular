@@ -1,58 +1,91 @@
-<div class="row">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+  body {
+      background-color: #f8f9fa; /* Agrega un color de fondo a la página */
+  }
 
+  .container {
+      margin-top: 50px; /* Ajusta el margen superior para centrar la tabla */
+  }
+</style>
 
-  <div class="col-12 col-sm-6">
-    <h3>Listado de Empleados</h3>
+<h1 style="text-align: center;">Listado de Empleados</h1>
 
-    
-    <table class="table">
-      <thead>
-        <tr>
+<div class="container-lg">
+  <div class="button d-flex justify-content-end mb-3">
+    <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
+      id="btn_nuevo" class="btn btn-success">
+      <i class="bi bi-person-fill-add"></i>
+      <span>Agregar Nuevo Empleado</span>
+    </a>
 
-          <th>Id</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Sexo</th>
-          <th>Cargo</th>
-          <td >Acciones</td>
-        </tr>
-      </thead>
-      <tbody>
-        @for (e of empleados; track e.id_emp){
-        <tr>
-          <th>{{e.id_emp}}</th>
-          <th>{{e.nombre_emp}}</th>
-          <th>{{e.apellido_emp}}</th>
-          <th>{{e.sexo_emp}}</th>
-          <th>{{e.cargo_emp}}</th>
-          <th>
-            <button class="btn btn-warning" (click)="editar(e)">Editar</button>&nbsp;
-            <button class="btn btn-danger" (click)="eliminar(e)">Eliminar</button>
-          </th>
-        </tr>
-        }
-      </tbody>
-    </table>
   </div>
-  <div class="col-12 col-sm-6 p-3">
-    <h3>{{textoBoton}} Empleado</h3>
-    <br>
-    <form #EmpleadoForm="ngForm" (ngSubmit)="agregar(); EmpleadoForm.reset()">
-      <input type="hidden" name="id_emp" id="id_emp" [(ngModel)]="empleado.id_emp">
-      <label class="form-label" for="nombre_emp">Nombre</label>
-      <input type="text" id="nombre_emp" name="nombre_emp" class="form-control" [(ngModel)]="empleado.nombre_emp" >
-      <label class="form-label" for="apellido_emp">Apellido</label>
-      <input type="text" id="apellido_emp" name="apellido_emp" class="form-control" [(ngModel)]="empleado.apellido_emp" >
-      <label class="form-label" for="sexo_emp">Sexo</label>
-      <input type="text" id="sexo_emp" name="sexo_emp" class="form-control" [(ngModel)]="empleado.sexo_emp" >
-      <label class="form-label" for="cargo_emp">Cargo</label>
-      <input type="text" id="cargo_emp" name="cargo_emp" class="form-control" [(ngModel)]="empleado.cargo_emp" >
-      <br>
-      <p class="text-center">
-        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
-        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
-      </p>
-    </form>
+<table class="table">
+  <thead>
+    <tr>
+
+      <th>Id</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Sexo</th>
+      <th>Cargo</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (e of empleados; track e.id_emp){
+    <tr>
+      <td>{{e.id_emp}}</td>
+      <td>{{e.nombre_emp}}</td>
+      <td>{{e.apellido_emp}}</td>
+      <td>{{e.sexo_emp}}</td>
+      <td>{{e.cargo_emp}}</td>
+      <th>
+        <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
+                  (click)="editar(e)">
+            <i class="bi bi-pencil"></i>
+          </button>&nbsp;
+          <button class="btn btn-danger" (click)="eliminar(e)">
+            <i class="bi bi-trash"></i>
+          </button>
+      </th>
+    </tr>
+    }
+  </tbody>
+</table>
+</div>
+
+<div class="container mt-4">
+  <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nuevo Empleado' : 'Editar Empleado'}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form #EmpleadoForm="ngForm" (ngSubmit)="agregar(); EmpleadoForm.reset()">
+            <input type="hidden" name="id_emp" id="id_emp" [(ngModel)]="empleado.id_emp">
+            <label class="form-label" for="nombre_emp">Nombre</label>
+            <input type="text" id="nombre_emp" name="nombre_emp" class="form-control" [(ngModel)]="empleado.nombre_emp">
+            <label class="form-label" for="apellido_emp">Apellido</label>
+            <input type="text" id="apellido_emp" name="apellido_emp" class="form-control"
+              [(ngModel)]="empleado.apellido_emp">
+            <label class="form-label" for="sexo_emp">Sexo</label>
+            <input type="text" id="sexo_emp" name="sexo_emp" class="form-control" [(ngModel)]="empleado.sexo_emp">
+            <label class="form-label" for="cargo_emp">Cargo</label>
+            <input type="text" id="cargo_emp" name="cargo_emp" class="form-control" [(ngModel)]="empleado.cargo_emp">
+            <br>
+            <p class="text-center">
+              <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
+              <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 

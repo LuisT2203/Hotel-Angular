@@ -37,6 +37,11 @@ export class DetalleservicioComponent implements OnInit {
     this.getEmpleados();
     this.getservicios();
   }
+  resetForm(){
+    this.detalleservicio = new DetalleServicio();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
 
   getdetalleservicios(){
     this.service.getDetalleServicios().subscribe(
@@ -60,6 +65,7 @@ export class DetalleservicioComponent implements OnInit {
   }
   editar(dese: IDetalleServicio){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this.service.getDetalleServicio(dese.id_detaserv).subscribe(
       (data:any)=> {
         this.detalleservicio = data;

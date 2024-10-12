@@ -32,6 +32,11 @@ export class RegistropagoComponent implements OnInit {
     this.getPagos();
    this.getreservas();
   }
+  resetForm(){
+    this.pago = new RegistroPago();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   getreservas(){
     this.serviceR.getReservas().subscribe(
       (result:any)=>this.reservas=result
@@ -44,6 +49,7 @@ export class RegistropagoComponent implements OnInit {
   }
   editar(pa: IRegistroPago){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.service.getPago(pa.id_pago).subscribe(
       (data:any)=>{ this.pago = data
         // Buscamos la reserva correspondiente y la asignamos si es válida
@@ -90,8 +96,13 @@ export class RegistropagoComponent implements OnInit {
   }
 }
 
-calcularMonto(): void {
-  this.monto = (this.precio + this.precio_habi) * this.cant_dias;
+calcularMonto() {
+  const precioServicio = this.pago.precio || 0;
+  const precioHabitacion = this.pago.precio_habi || 0;
+  const cantidadDias = this.pago.cant_dias || 0;
+
+  // Suma los precios y multiplica por la cantidad de días
+  this.pago.monto = (precioServicio + precioHabitacion) * cantidadDias;
 }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HabitacionService } from '../../service/habitacion.service';
 import { Ihabitacion } from '../../model/iHabitacion';
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Habitacion } from '../../model/habitacion';
 
@@ -9,7 +9,7 @@ import { Habitacion } from '../../model/habitacion';
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [NgFor,FormsModule],
+  imports: [NgFor,FormsModule,NgClass],
   templateUrl: './habitaciones.component.html',
   styleUrl: './habitaciones.component.css'
 })
@@ -26,6 +26,11 @@ export class HabitacionesComponent implements OnInit {
   ngOnInit(): void {
     this.getHabitaciones();
   }
+  resetForm(){
+    this.habitacion = new Habitacion();
+    this.insUpd=true;
+    this.textoBoton="Agregar";
+  }
   getHabitaciones(){
     this.service.getHabitaciones().subscribe(
       (result:any)=>this.habitaciones=result
@@ -33,6 +38,7 @@ export class HabitacionesComponent implements OnInit {
   }
   editar(hab: Ihabitacion){
     this.textoBoton ="Actualizar";
+    this.insUpd = false;
     this,this.service.getHabitacion(hab.nro_habi).subscribe(
       (data:any)=> this.habitacion = data
     );
