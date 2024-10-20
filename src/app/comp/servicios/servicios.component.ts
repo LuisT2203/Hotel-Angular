@@ -4,6 +4,8 @@ import { IServicio } from '../../model/iServicio';
 import { Servicio } from '../../model/servicio';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { EmpleadoService } from '../../service/empleado.service';
+import { IEmpleado } from '../../model/iEmpleado';
 
 @Component({
   selector: 'app-servicios',
@@ -13,8 +15,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './servicios.component.css'
 })
 export class ServiciosComponent implements OnInit {
-  constructor(private service:ServicioService){}
+  constructor(private service:ServicioService, private empService:EmpleadoService){}
 
+  empleados : IEmpleado[]=[]
   servicios: IServicio[]=[]
   textoBoton ="Agregar";
   servicio = new Servicio();
@@ -23,6 +26,7 @@ export class ServiciosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getservicios();
+    this.getEmpleados();
   }
   resetForm(){
     this.servicio = new Servicio();
@@ -32,6 +36,11 @@ export class ServiciosComponent implements OnInit {
   getservicios(){
     this.service.getServicios().subscribe(
       (result:any)=>this.servicios=result
+    );
+  }
+  getEmpleados(){
+    this.empService.getEmpleados().subscribe(
+      (data:any)=>this.empleados=data
     );
   }
   editar(ser: IServicio){

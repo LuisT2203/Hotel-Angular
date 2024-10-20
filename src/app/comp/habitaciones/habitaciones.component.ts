@@ -1,21 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { HabitacionService } from '../../service/habitacion.service';
 import { Ihabitacion } from '../../model/iHabitacion';
-import { NgClass, NgFor } from '@angular/common';
+import { CommonModule, NgClass, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Habitacion } from '../../model/habitacion';
+import { AuthService } from '../../service/auth.service';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [NgFor,FormsModule,NgClass],
+  imports: [NgFor,FormsModule,NgClass,CommonModule,RouterLink],
   templateUrl: './habitaciones.component.html',
   styleUrl: './habitaciones.component.css'
 })
 export class HabitacionesComponent implements OnInit {
 
-  constructor(private service:HabitacionService){}
+  constructor(private service:HabitacionService,public authService: AuthService){}
 
   habitaciones: Ihabitacion[]=[]
   textoBoton ="Agregar";

@@ -3,7 +3,8 @@ export class Huesped {
   nombre: string ="";
   apellido: string="";
   direccion: string="";
-  email: string="";
   sexo: string="";
   edad: number= 0
+  correo: string="";
+  clave:string="";
 }

@@ -31,8 +31,7 @@
           <th>Cantidad de Dias</th>
           <th>Habitacion</th>
           <th>reserva</th>
-          <th>Empleado</th>
-          <th>Servicio</th>
+          <th>Servicios</th>
           <th>Estado Reserva</th>
           <th>Acciones</th>
         </tr>
@@ -46,8 +45,20 @@
           <td>{{r.cant_dias}}</td>
           <td>{{r.habitacion.descripcion}}</td>
           <td>{{r.huesped.nombre}}</td>
-          <td>{{r.empleado.nombre_emp}}</td>
-          <td>{{r.servicio.nombre}}</td>
+          <td>
+            <ul>
+              @for (s of r.servicios; track s.id_servicio) {
+                <li>
+                  {{ s.nombre }} - Empleado:
+                  <ul>
+                    @for (e of s.empleados; track e.id_emp) {
+                      <li>{{ e.nombre_emp }} {{ e.apellido_emp }}</li>
+                    }
+                  </ul>
+                </li>
+              }
+            </ul>
+          </td>
           <td>{{r.estado_reserva}}</td>
 
           <th>
@@ -69,53 +80,61 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nueva Reserva' : 'Editar Reserva'}}</h5>
+            <h5 class="modal-title" id="personalModalLabel">{{ insUpd ? 'Nueva Reserva' : 'Editar Reserva' }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-    <form #ReservaForm="ngForm" (ngSubmit)="agregar(); ReservaForm.reset()" >
-      <input type="hidden" name="nro_reserva" id="nro_reserva" [(ngModel)]="reserva.nro_reserva">
-      <label class="form-label" for="fecha_reserva">Fecha reserva</label>
-      <input type="date" id="fecha_reserva" name="fecha_reserva" class="form-control" [(ngModel)]="reserva.fecha_reserva" >
-      <label class="form-label" for="huesped">Huesped</label>
-      <select [(ngModel)]="reserva.huesped" id="huesped" name="huesped" class="form-control" >
-        @for (h of huespedes; track h.id_huesped){
-          <option [ngValue]="h">{{h.nombre}} {{h.apellido}}</option>
-        }
-      </select>
-      <label class="form-label" for="cant_personas">Cantidad de Personas</label>
-      <input type="text" id="cant_personas" name="cant_personas" class="form-control" [(ngModel)]="reserva.cant_personas" >
-      <label class="form-label" for="cant_dias">Cantidad de dias</label>
-      <input type="text" id="cant_dias" name="cant_dias" class="form-control" [(ngModel)]="reserva.cant_dias" >
-      <label class="form-label" for="habitacion">Habitacion</label>
-      <select [(ngModel)]="reserva.habitacion" id="habitacion" name="habitacion" class="form-control" >
-        @for (h of habitaciones; track h.nro_habi){
-          <option [ngValue]="h">{{h.descripcion}}</option>
-        }
-      </select>
-      <label class="form-label" for="servicio">Servicio</label>
-      <select [(ngModel)]="reserva.servicio" id="servicio" name="servicio" class="form-control" >
-        @for (s of servicios; track s.id_servicio){
-          <option [ngValue]="s">{{s.nombre}}</option>
-        }
-      </select>
-      <label class="form-label" for="empleado">Empleado</label>
-      <select [(ngModel)]="reserva.empleado" id="empleado" name="empleado" class="form-control" >
-        @for (e of empleados; track e.id_emp){
-          <option [ngValue]="e">{{e.nombre_emp}}</option>
-        }
-      </select>
+            <form #ReservaForm="ngForm" (ngSubmit)="agregar(); ReservaForm.reset()">
+              <input type="hidden" name="nro_reserva" id="nro_reserva" [(ngModel)]="reserva.nro_reserva">
+              <label class="form-label" for="fecha_reserva">Fecha reserva</label>
+              <input type="date" id="fecha_reserva" name="fecha_reserva" class="form-control" [(ngModel)]="reserva.fecha_reserva">
 
-      <label class="form-label" for="estado_reserva">Estado Reserva</label>
-      <input type="text" id="estado_reserva" name="estado_reserva" class="form-control" [(ngModel)]="reserva.estado_reserva" >
-      <br>
-      <p class="text-center">
-        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
-        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
-      </p>
-    </form>
+              <label class="form-label" for="huesped">Huesped</label>
+              <select [(ngModel)]="reserva.huesped" id="huesped" name="huesped" class="form-control">
+                @for (h of huespedes; track h.id_huesped) {
+                  <option [ngValue]="h">{{ h.nombre }} {{ h.apellido }}</option>
+                }
+              </select>
+
+              <label class="form-label" for="cant_personas">Cantidad de Personas</label>
+              <input type="text" id="cant_personas" name="cant_personas" class="form-control" [(ngModel)]="reserva.cant_personas">
+
+              <label class="form-label" for="cant_dias">Cantidad de dias</label>
+              <input type="text" id="cant_dias" name="cant_dias" class="form-control" [(ngModel)]="reserva.cant_dias">
+
+              <label class="form-label" for="habitacion">Habitacion</label>
+              <select [(ngModel)]="reserva.habitacion" id="habitacion" name="habitacion" class="form-control">
+                @for (h of habitaciones; track h.nro_habi) {
+                  <option [ngValue]="h">{{ h.descripcion }}</option>
+                }
+              </select>
+
+              <label class="form-label" for="servicio">Servicios Asignados</label>
+              <div class="mb-3">
+                <ul class="list-group">
+                  <li *ngFor="let servicio of reserva.servicios" class="list-group-item">
+                    {{ servicio.nombre }} <button type="button" class="btn btn-danger btn-sm" (click)="removerServicio(servicio)">Eliminar</button>
+                  </li>
+                </ul>
+              </div>
+
+              <label class="form-label" for="nuevoServicio">Agregar Servicio</label>
+              <select [(ngModel)]="nuevoServicio" id="nuevoServicio" name="nuevoServicio" class="form-control">
+                @for (s of servicios; track s.id_servicio) {
+                  <option [ngValue]="s">{{ s.nombre }}</option>
+                }
+              </select>
+              <button type="button" class="btn btn-primary mt-2" (click)="agregarNuevoServicio()">Agregar Servicio</button>
+              <label class="form-label" for="estado_reserva">Estado Reserva</label>
+              <input type="text" id="estado_reserva" name="estado_reserva" class="form-control" [(ngModel)]="reserva.estado_reserva">
+              <br>
+              <p class="text-center">
+                <button type="submit" class="btn btn-success btn-sm">{{ textoBoton }}</button>&nbsp;
+                <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-</div>
-</div>
-</div>

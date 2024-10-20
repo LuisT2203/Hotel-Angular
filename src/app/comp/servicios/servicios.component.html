@@ -40,6 +40,7 @@
           <td>{{s.tipo}}</td>
           <td>{{s.nombre}}</td>
           <td>{{s.precio}}</td>
+          <td>{{s.empleados}}</td>
           <th>
             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
                   (click)="editar(s)">
@@ -71,6 +72,14 @@
       <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" >
       <label class="form-label" for="precio">Precio</label>
       <input type="text" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" >
+      <label class="form-label" for="empleado">Empleado</label>
+              <select [(ngModel)]="servicio.empleado" id="empleado" name="empleado" class="form-control">
+                @for (e of empleados; track e.id_emp) {
+                  <option [ngValue]="e">{{ e.nombre_emp }}</option>
+                }
+              </select>
+      <br>
+
       <br>
       <p class="text-center">
         <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;

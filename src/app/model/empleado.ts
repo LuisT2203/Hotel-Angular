@@ -4,4 +4,6 @@ export class Empleado {
   apellido_emp: string="";
   sexo_emp: string="";
   cargo_emp: string="";
+  correo: string="";
+  clave:string="";
 }

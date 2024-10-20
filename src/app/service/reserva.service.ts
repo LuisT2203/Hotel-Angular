@@ -12,7 +12,7 @@ export class ReservaService {
   constructor(private http:HttpClient) { }
 
   getReservas (){
-    return this.http.get<IReserva>(this.URL);
+    return this.http.get<IReserva[]>(this.URL);
   }
   getReserva (nro_reserva:any){
     return this.http.get<IReserva>(`${this.URL}/${nro_reserva}`);

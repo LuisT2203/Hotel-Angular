@@ -3,5 +3,7 @@ export interface IEmpleado {
   nombre_emp: string,
   apellido_emp: string,
   sexo_emp: string,
-  cargo_emp: string
+  cargo_emp: string,
+  correo: string,
+  clave: string
 }

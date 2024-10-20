@@ -11,7 +11,7 @@ export class HabitacionService {
   constructor(private http:HttpClient) { }
 
   getHabitaciones (){
-    return this.http.get<Ihabitacion>(this.URL);
+    return this.http.get<Ihabitacion[]>(this.URL);
   }
   getHabitacion (nro_habitacion:any){
     return this.http.get<Ihabitacion>(`${this.URL}/${nro_habitacion}`);

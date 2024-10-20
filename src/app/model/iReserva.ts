@@ -10,7 +10,6 @@ export interface IReserva{
   cant_dias: number,
   habitacion: Ihabitacion,
   huesped: IHuesped,
-  empleado: IEmpleado,
-  servicio: IServicio,
+  servicios: IServicio[],
   estado_reserva: string
 }

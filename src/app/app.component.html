@@ -1,11 +1,11 @@
 
 
-<app-navegador></app-navegador>
+<app-navegador *ngIf="showNavAndFooter"></app-navegador>
 
   <router-outlet></router-outlet>
 
 
-<footer class="footer">
+<footer class="footer" *ngIf="showNavAndFooter">
   <div class="footer_top">
       <div class="container">
           <div class="row">

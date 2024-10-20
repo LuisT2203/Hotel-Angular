@@ -72,7 +72,9 @@
       <select [(ngModel)]="pago.reserva" id="reserva" name="reserva" class="form-control">
         @for (r of reservas; track r.nro_reserva){
         <option [ngValue]="r">Nro Reserva:{{r.nro_reserva}}, Nombre {{r.huesped.nombre}} {{r.huesped.apellido}},
-          Cantidad de dias {{r.cant_dias}}, Precio Servicio {{r.servicio.precio}},Precio Habitacion{{r.habitacion.precio_habi}}</option>
+          Cantidad de dias {{r.cant_dias}},<div *ngFor="let servicio of r.servicios">
+            Precio Servicio {{servicio.precio}}
+          </div>,Precio Habitacion{{r.habitacion.precio_habi}}</option>
         }
       </select>
       <label class="form-label" for="precio">Precio Servicio</label>

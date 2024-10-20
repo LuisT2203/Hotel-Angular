@@ -8,16 +8,21 @@ import { ReservasComponent } from './comp/reservas/reservas.component';
 import { DetallereservaComponent } from './comp/detallereserva/detallereserva.component';
 import { DetalleservicioComponent } from './comp/detalleservicio/detalleservicio.component';
 import { RegistropagoComponent } from './comp/registropago/registropago.component';
+import { LoginComponent } from './comp/login/login.component';
+import { authenticatedGuard } from './guards/authenticated.guard';
+import { authGuard } from './guards/auth.guard';
+import { authHuespedGuard } from './guards/auth-huesped.guard';
 
 export const routes: Routes = [
-  {path:"habitaciones",component:HabitacionesComponent,title:"Gestor de Habitaciones"},
-  {path:"empleados",component:EmpleadosComponent,title:"Gestor de Empleados"},
-  {path:"huespedes",component:HuespedsComponent,title:"Gestor de Huespedes"},
-  {path:"servicios",component:ServiciosComponent,title:"Gestor de Servicios"},
-  {path:"reservas",component:ReservasComponent,title:"Gestor de Reservas"},
-  {path:"detallereserva",component:DetallereservaComponent,title:"Gestor de Detalle Reserva"},
-  {path:"detalleservicio",component:DetalleservicioComponent,title:"Gestor de Detalle Reserva"},
-  {path:"pago", component:RegistropagoComponent,title:"Registro Pago"},
+  {path:"habitaciones",component:HabitacionesComponent,title:"Gestor de Habitaciones", canActivate: [authHuespedGuard]},
+  {path:"empleados",component:EmpleadosComponent,title:"Gestor de Empleados", canActivate: [authGuard]},
+  {path:"huespedes",component:HuespedsComponent,title:"Gestor de Huespedes", canActivate: [authGuard]},
+  {path:"servicios",component:ServiciosComponent,title:"Gestor de Servicios", canActivate: [authGuard]},
+  {path:"reservas",component:ReservasComponent,title:"Gestor de Reservas", canActivate: [authHuespedGuard]},
+  {path:"detallereserva",component:DetallereservaComponent,title:"Gestor de Detalle Reserva", canActivate: [authGuard]},
+  {path:"detalleservicio",component:DetalleservicioComponent,title:"Gestor de Detalle Servicio", canActivate: [authGuard]},
+  {path:"pago", component:RegistropagoComponent,title:"Registro Pago", canActivate: [authGuard]},
   {path:"inicio", component:InicioComponent,title:"Hotel Lima"},
+  {path:"login", component:LoginComponent,title:"Hotel Lima",canActivate: [authenticatedGuard]},
   {path:"",redirectTo:"inicio",pathMatch:'full'}
 ];

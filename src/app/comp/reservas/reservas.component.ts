@@ -12,6 +12,7 @@ import { IEmpleado } from '../../model/iEmpleado';
 import { IServicio } from '../../model/iServicio';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-reservas',
@@ -23,7 +24,7 @@ import { FormsModule } from '@angular/forms';
 export class ReservasComponent implements OnInit {
   constructor(private service:ReservaService,private habiService:HabitacionService,
     private hueService:HuespedService, private empService:EmpleadoService,
-    private serService:ServicioService
+    private serService:ServicioService, private authService: AuthService
   ){}
 
   reservas: IReserva[]=[]
@@ -34,6 +35,9 @@ export class ReservasComponent implements OnInit {
   textoBoton ="Agregar";
   reserva = new Reserva();
   insUpd = true;
+  nuevoServicio?: IServicio;
+  correoHuesped = this.authService.getUserEmail()
+  tipoUsuario = this.authService.getUserType()
 
 
   ngOnInit(): void {
@@ -48,19 +52,51 @@ export class ReservasComponent implements OnInit {
     this.insUpd=true;
     this.textoBoton="Agregar";
   }
-  getreservas(){
+  getreservas(): void {
     this.service.getReservas().subscribe(
-      (result:any)=>this.reservas=result
+      (result: IReserva[]) => {
+        this.reservas = result; // Asigna todas las reservas a la propiedad
+
+        // Filtra las reservas si el usuario es un Huesped
+        if (this.tipoUsuario === 'Huesped') {
+          this.reservas = this.reservas.filter(reserva => reserva.huesped.correo === this.correoHuesped);
+        }
+      },
+      error => {
+        console.error('Error al obtener las reservas', error);
+      }
     );
   }
-  getHabitaciones(){
+  getHabitaciones(): void {
     this.habiService.getHabitaciones().subscribe(
-      (result:any)=>this.habitaciones=result
+      (result: Ihabitacion[]) => {
+        // Asigna el resultado a la lista completa de habitaciones
+        this.habitaciones = result;
+
+        // Filtra solo las habitaciones que están "Disponibles"
+        this.habitaciones = this.habitaciones.filter(habitacion => habitacion.estado === 'Disponible');
+      },
+      error => {
+        console.error('Error al obtener las habitaciones', error);
+        // Manejo de errores si es necesario
+      }
     );
   }
-  gethuespedes(){
+  gethuespedes(): void {
     this.hueService.getHuespedes().subscribe(
-      (result:any)=>this.huespedes=result
+      (result: IHuesped[]) => {
+        // Asigna el resultado a la lista completa de huéspedes
+        this.huespedes = result;
+
+        // Filtra solo el huésped que corresponde al correo del usuario autenticado
+        if (this.tipoUsuario === 'Huesped') {
+          this.huespedes = this.huespedes.filter(huesped => huesped.correo === this.correoHuesped);
+        }
+      },
+      error => {
+        console.error('Error al obtener los huéspedes', error);
+        // Manejo de errores si es necesario
+      }
     );
   }
   getEmpleados(){
@@ -96,47 +132,37 @@ export class ReservasComponent implements OnInit {
           console.error('Habitación no encontrada:', res.habitacion);
         }
 
-        // Buscamos al empleado correspondiente y lo asignamos si es válido
-        const empleadoEncontrado = this.empleados.find(e => e.id_emp === res.empleado.id_emp);
-        if (empleadoEncontrado) {
-          this.reserva.empleado = empleadoEncontrado;
-        } else {
-          console.error('Empleado no encontrado:', res.empleado);
-        }
 
-        // Buscamos el servicio correspondiente y lo asignamos si es válido
-        const servicioEncontrado = this.servicios.find(s => s.id_servicio === res.servicio.id_servicio);
-        if (servicioEncontrado) {
-          this.reserva.servicio = servicioEncontrado;
+
+        // Asignamos los servicios directamente si res.servicios es un array
+        if (Array.isArray(res.servicios)) {
+          this.reserva.servicios = [...res.servicios]; // Asignar una copia de la lista
         } else {
-          console.error('Servicio no encontrado:', res.servicio);
-        }
+          console.error('Los servicios no son un array:', res.servicios);
+      }
       }
     );
   }
-  agregar(){
-    if(this.insUpd){
+  agregar() {
+    if (this.insUpd) {
+      // Si estamos insertando, solo agregamos la nueva reserva
       this.service.insertarReserva(this.reserva).subscribe(
-          (resp)=>{
-            this.getreservas();
-            this.insUpd=false;
-
-
-          }
-      );
-
-    }else{
-      this.service.actualizarReserva(this.reserva).subscribe(
-        (resp)=>{
+        (resp) => {
           this.getreservas();
-          this.insUpd=true;
-
-
+          this.insUpd = false;
+        }
+      );
+    } else {
+      // Si estamos actualizando, evitamos duplicados en la reserva
+      this.service.actualizarReserva(this.reserva).subscribe(
+        (resp) => {
+          this.getreservas();
+          this.insUpd = true;
+        }
+      );
     }
-  );
+    this.textoBoton = "Agregar";
   }
-  this.textoBoton ="Agregar";
- }
  eliminar(res: IReserva) {
   if (confirm("¿Estás seguro de eliminar esta reserva?")) {
       this.service.eliminarReserva(res.nro_reserva).subscribe(
@@ -145,5 +171,50 @@ export class ReservasComponent implements OnInit {
           }
       );
   }
+}
+agregarNuevoServicio() {
+  if (this.nuevoServicio) {
+    const idNuevoServicio = this.nuevoServicio.id_servicio;
+
+    if (idNuevoServicio) {
+      const servicioExistente = this.reserva.servicios.find(servicio =>
+        servicio.id_servicio === idNuevoServicio
+      );
+
+      if (!servicioExistente) {
+        this.reserva.servicios.push(this.nuevoServicio);
+        console.log('Servicio agregado:', this.nuevoServicio);
+      } else {
+        // Si el servicio ya existe, lo actualizamos
+        this.actualizarServicioReserva(this.nuevoServicio);
+        console.warn('Servicio actualizado:', this.nuevoServicio);
+      }
+    } else {
+      console.error('El nuevo servicio no tiene un id_servicio válido.');
+    }
+
+    this.nuevoServicio = undefined; // Reiniciar nuevoServicio
+  } else {
+    console.error('El nuevo servicio es indefinido');
+  }
+}
+removerServicio(servicio: IServicio) {
+  this.reserva.servicios = this.reserva.servicios.filter(s => s.id_servicio !== servicio.id_servicio);
+}
+actualizarServicioReserva(servicio: IServicio) {
+  const servicioExistente = this.reserva.servicios.find(s => s.id_servicio === servicio.id_servicio);
+
+  if (servicioExistente) {
+    // Si el servicio existe, se actualiza aquí
+    // Puedes cambiar las propiedades del servicio como desees
+    Object.assign(servicioExistente, servicio);
+    console.log('Servicio actualizado:', servicioExistente);
+  } else {
+    console.warn('El servicio no se encontró en la reserva:', servicio);
+  }
+}
+getServiciosUnicos(): IServicio[] {
+  const idsServicios = new Set(this.reserva.servicios.map(s => s.id_servicio));
+  return this.servicios.filter(servicio => !idsServicios.has(servicio.id_servicio));
 }
 }

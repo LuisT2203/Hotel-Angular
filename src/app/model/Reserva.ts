@@ -14,7 +14,6 @@ export class Reserva{
   cant_dias: number=0;
   habitacion: Ihabitacion = new Habitacion();
   huesped: IHuesped = new Huesped();
-  empleado: IEmpleado = new Empleado();
-  servicio: IServicio = new Servicio();
+  servicios: IServicio[] = [];
   estado_reserva: string=""
 }

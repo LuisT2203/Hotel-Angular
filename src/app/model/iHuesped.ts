@@ -3,7 +3,8 @@ export interface IHuesped {
   nombre: string,
   apellido: string,
   direccion: string,
-  email: string,
   sexo: string,
-  edad: number
+  edad: number,
+  correo: string,
+  clave: string
 }

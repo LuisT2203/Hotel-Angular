@@ -8,6 +8,7 @@ import { map } from 'rxjs';
 })
 export class EmpleadoService {
   URL ="http://localhost:8080/empleado"
+  private LOGIN_URL = 'http://localhost:8080/api/usuario/save';
   constructor(private http:HttpClient) { }
 
   getEmpleados (){

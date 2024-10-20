@@ -12,7 +12,7 @@ export class HuespedService {
   constructor(private http:HttpClient) { }
 
   getHuespedes (){
-    return this.http.get<IHuesped>(this.URL);
+    return this.http.get<IHuesped[]>(this.URL);
   }
   getHuesped (id_huesped:any){
     return this.http.get<IHuesped>(`${this.URL}/${id_huesped}`);

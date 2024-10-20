@@ -12,12 +12,20 @@
 
 <h1 style="text-align: center;">Listado de Habitaciones</h1>
 
-<div class="container-lg">
-  <div class="button d-flex justify-content-end mb-3">
+<div class="container-lg" >
+  <div class="button d-flex justify-content-end mb-3" *ngIf="authService.isAuthenticated() && !(authService.getUserType() === 'Huesped')">
     <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
       id="btn_nuevo" class="btn btn-success">
       <i class="bi bi-person-fill-add"></i>
       <span>Agregar Nueva Habitacion</span>
+    </a>
+
+  </div>
+  <div class="button d-flex justify-content-end mb-3">
+    <a [routerLink]="['/reservas']" type="button" class="btn btn-danger btn-lg"
+       >
+      <i class="bi bi-person-fill-add"></i>
+      <span>RESERVAR</span>
     </a>
 
   </div>
@@ -81,3 +89,4 @@
 </div>
 </div>
 </div>
+
