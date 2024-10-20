@@ -15,12 +15,12 @@
   display: grid;
   place-items: center;
   min-height: 100vh;
-  background: linear-gradient(90deg, #0000FF, #FFFFFF, #FF0000); /* Degradado horizontal con los colores de la bandera de Francia */
+  background: linear-gradient(90deg, #fdfdfd, #91910065, #080000); /* Degradado horizontal con los colores de la bandera de Francia */
   max-width: 100%;
 }
 
 .screen {
-	background: linear-gradient(180deg, #FF0000, #FFFFFF, #0000FF);
+	background: linear-gradient(180deg, #030000, #FFFFFF, #070707);
 	position: relative;
 	height: 600px;
 	width: 360px;
@@ -65,7 +65,7 @@
 .screen__background__shape2 {
 	height: 220px;
 	width: 220px;
-	background: linear-gradient(45deg, #FF0000, #FFFFFF, #0000FF); /* Degradado diagonal de rojo a blanco y azul */
+	background: linear-gradient(45deg, #a98400, #FFFFFF, #01016e); /* Degradado diagonal de rojo a blanco y azul */
 	top: -172px;
 	right: 0;
 	border-radius: 32px;
@@ -74,7 +74,7 @@
 .screen__background__shape3 {
 	height: 540px;
 	width: 190px;
-	background: linear-gradient(90deg, #0000FF, #FFFFFF, #FF0000); /* Degradado horizontal de azul a blanco y rojo */
+	background: linear-gradient(90deg, #3c3c0065, #FFFFFF, #060000); /* Degradado horizontal de azul a blanco y rojo */
 	top: -24px;
 	right: 0;
 	border-radius: 32px;
@@ -83,7 +83,7 @@
 .screen__background__shape4 {
 	height: 400px;
 	width: 200px;
-	background: linear-gradient(180deg, #FF0000, #FFFFFF, #0000FF); /* Degradado vertical de rojo a blanco y azul */
+	background: linear-gradient(180deg, #525400, #FFFFFF, #0000FF); /* Degradado vertical de rojo a blanco y azul */
 	top: 420px;
 	right: 50px;
 	border-radius: 60px;

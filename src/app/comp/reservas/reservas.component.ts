@@ -13,6 +13,7 @@ import { IServicio } from '../../model/iServicio';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
+import { MensajeResponse } from '../../model/MensajeResponse';
 
 @Component({
   selector: 'app-reservas',
@@ -54,8 +55,8 @@ export class ReservasComponent implements OnInit {
   }
   getreservas(): void {
     this.service.getReservas().subscribe(
-      (result: IReserva[]) => {
-        this.reservas = result; // Asigna todas las reservas a la propiedad
+      (result: any) => {
+        this.reservas = result.object; // Asigna todas las reservas a la propiedad
 
         // Filtra las reservas si el usuario es un Huesped
         if (this.tipoUsuario === 'Huesped') {
@@ -84,9 +85,9 @@ export class ReservasComponent implements OnInit {
   }
   gethuespedes(): void {
     this.hueService.getHuespedes().subscribe(
-      (result: IHuesped[]) => {
+      (result: MensajeResponse) => {
         // Asigna el resultado a la lista completa de huéspedes
-        this.huespedes = result;
+        this.huespedes = result.object as IHuesped[];
 
         // Filtra solo el huésped que corresponde al correo del usuario autenticado
         if (this.tipoUsuario === 'Huesped') {
@@ -106,7 +107,7 @@ export class ReservasComponent implements OnInit {
   }
   getservicios(){
     this.serService.getServicios().subscribe(
-      (result:any)=>this.servicios=result
+      (result:any)=>this.servicios=result.object
     );
   }
   editar(res: IReserva){

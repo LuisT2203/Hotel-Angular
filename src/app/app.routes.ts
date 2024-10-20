@@ -12,6 +12,7 @@ import { LoginComponent } from './comp/login/login.component';
 import { authenticatedGuard } from './guards/authenticated.guard';
 import { authGuard } from './guards/auth.guard';
 import { authHuespedGuard } from './guards/auth-huesped.guard';
+import { RegistroComponent } from './comp/registro/registro.component';
 
 export const routes: Routes = [
   {path:"habitaciones",component:HabitacionesComponent,title:"Gestor de Habitaciones", canActivate: [authHuespedGuard]},
@@ -22,6 +23,7 @@ export const routes: Routes = [
   {path:"detallereserva",component:DetallereservaComponent,title:"Gestor de Detalle Reserva", canActivate: [authGuard]},
   {path:"detalleservicio",component:DetalleservicioComponent,title:"Gestor de Detalle Servicio", canActivate: [authGuard]},
   {path:"pago", component:RegistropagoComponent,title:"Registro Pago", canActivate: [authGuard]},
+  {path:"registro", component:RegistroComponent,title:"Registrarse"},
   {path:"inicio", component:InicioComponent,title:"Hotel Lima"},
   {path:"login", component:LoginComponent,title:"Hotel Lima",canActivate: [authenticatedGuard]},
   {path:"",redirectTo:"inicio",pathMatch:'full'}

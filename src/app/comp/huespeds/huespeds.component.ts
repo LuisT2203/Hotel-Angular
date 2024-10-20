@@ -32,7 +32,7 @@ export class HuespedsComponent implements OnInit {
   }
   gethuespedes(){
     this.service.getHuespedes().subscribe(
-      (result:any)=>this.huespedes=result
+      (result:any)=>this.huespedes=result.object
     );
   }
   editar(hue: IHuesped){

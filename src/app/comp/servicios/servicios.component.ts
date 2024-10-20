@@ -35,7 +35,7 @@ export class ServiciosComponent implements OnInit {
   }
   getservicios(){
     this.service.getServicios().subscribe(
-      (result:any)=>this.servicios=result
+      (result:any)=>this.servicios=result.object
     );
   }
   getEmpleados(){

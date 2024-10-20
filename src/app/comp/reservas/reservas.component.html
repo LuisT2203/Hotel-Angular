@@ -50,11 +50,7 @@
               @for (s of r.servicios; track s.id_servicio) {
                 <li>
                   {{ s.nombre }} - Empleado:
-                  <ul>
-                    @for (e of s.empleados; track e.id_emp) {
-                      <li>{{ e.nombre_emp }} {{ e.apellido_emp }}</li>
-                    }
-                  </ul>
+                  {{ s.empleado.nombre_emp }} {{ s.empleado.apellido_emp }}
                 </li>
               }
             </ul>

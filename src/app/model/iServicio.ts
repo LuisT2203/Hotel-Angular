@@ -5,6 +5,6 @@ export interface IServicio{
   tipo: string,
   nombre: string,
   precio: number,
-  empleados?: IEmpleado[];
+  empleado: IEmpleado;
 
 }

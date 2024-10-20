@@ -2,13 +2,16 @@
 <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
 
 
+
+
 <div class="container">
+
 	<div class="screen">
 
 		<div class="screen__content">
 			<form class="login">
         <div class="logo-details">
-          <img src="/assets/static/images/Logo.png" alt="profileImg">
+          <img src="/assets/static/img/logo.jpg" alt="profileImg">
         </div>
             <div class="login__field">
 
@@ -30,6 +33,14 @@
                 <span class="button__text">Iniciar Sesion</span>
 					      <i class="button__icon fas fa-chevron-right"></i>
               </button>
+              <div class="button d-flex justify-content-center  mt-3">
+                <a [routerLink]="['/inicio']" type="button" class="btn btn-warning btn-lg"
+                   >
+
+                  <span>Atras</span>
+                </a>
+
+              </div>
 
 
           </form>

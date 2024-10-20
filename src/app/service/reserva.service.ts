@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { IReserva } from '../model/iReserva';
+import { MensajeResponse } from '../model/MensajeResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -12,17 +13,17 @@ export class ReservaService {
   constructor(private http:HttpClient) { }
 
   getReservas (){
-    return this.http.get<IReserva[]>(this.URL);
+    return this.http.get<MensajeResponse>(this.URL+"/lista");
   }
   getReserva (nro_reserva:any){
     return this.http.get<IReserva>(`${this.URL}/${nro_reserva}`);
   }
   insertarReserva(res:IReserva){
-    return this.http.post<IReserva>(this.URL,res)
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",res)
     .pipe(map(emp=>res));
   }
   actualizarReserva(res:IReserva){
-    return this.http.put<IReserva>(this.URL,res)
+    return this.http.put<MensajeResponse>(this.URL+"/registrar",res)
     .pipe(map(emp=>res));
   }
   eliminarReserva(nro_reserva: number) {

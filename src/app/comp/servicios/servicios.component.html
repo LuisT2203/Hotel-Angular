@@ -17,7 +17,7 @@
     <a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
       id="btn_nuevo" class="btn btn-success">
       <i class="bi bi-person-fill-add"></i>
-      <span>Agregar Nuevo Empleado</span>
+      <span>Agregar Nuevo Servicio</span>
     </a>
 
   </div>
@@ -30,6 +30,7 @@
           <th>Tipo</th>
           <th>Nombre</th>
           <th>Precio</th>
+          <th>Empleado</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -40,7 +41,7 @@
           <td>{{s.tipo}}</td>
           <td>{{s.nombre}}</td>
           <td>{{s.precio}}</td>
-          <td>{{s.empleados}}</td>
+          <td>{{s.empleado.nombre_emp }} {{s.empleado.apellido_emp }}</td>
           <th>
             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#personalModal"
                   (click)="editar(s)">

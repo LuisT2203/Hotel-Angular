@@ -49,11 +49,7 @@
                                   <li *ngIf="authService.isAuthenticated() && !(authService.getUserType() === 'Huesped')"><a [routerLink]="['/detalleservicio']">Detalle Servicio</a>
                                   </li>
                                   <li *ngIf="!authService.isAuthenticated()"><a [routerLink]="['/login']">Login</a></li>
-                                  <li *ngIf="!authService.isAuthenticated()"><a (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#personalModal" type="button" name="btn_nuevo"
-                                    id="btn_nuevo">
-                                    <i class="bi bi-person-fill-add"></i>
-                                    <span>Registrarse</span>
-                                  </a></li>
+                                  <li *ngIf="!authService.isAuthenticated()"><a [routerLink]="['/registro']">Registro</a></li>
                               </ul>
                           </nav>
                       </div>
@@ -104,43 +100,7 @@
           </div>
       </div>
   </div>
-  <div class="container mt-0">
-    <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nuevo Huesped' : 'Editar Huesped'}}</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
 
-    <form #HuespedForm="ngForm" (ngSubmit)="agregar(); HuespedForm.reset()" >
-      <input type="hidden" name="id_huesped" id="id_huesped" [(ngModel)]="huesped.id_huesped">
-      <label class="form-label" for="nombre">Nombre</label>
-      <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="huesped.nombre" >
-      <label class="form-label" for="apellido">Apellido</label>
-      <input type="text" id="apellido" name="apellido" class="form-control" [(ngModel)]="huesped.apellido" >
-      <label class="form-label" for="direccion">Direccion</label>
-      <input type="text" id="direccion" name="direccion" class="form-control" [(ngModel)]="huesped.direccion" >
-      <label class="form-label" for="sexo">Sexo</label>
-      <input type="text" id="sexo" name="sexo" class="form-control" [(ngModel)]="huesped.sexo" >
-      <label class="form-label" for="edad">Edad</label>
-      <input type="text" id="edad" name="edad" class="form-control" [(ngModel)]="huesped.edad" >
-      <label class="form-label" for="email">Correo</label>
-      <input type="text" id="correo" name="correo" class="form-control" [(ngModel)]="huesped.correo" >
-      <label class="form-label" for="email">Clave</label>
-      <input type="text" id="clave" name="clave" class="form-control" [(ngModel)]="huesped.clave" >
-      <br>
-      <p class="text-center">
-        <button type="submit" class="btn btn-success btn-sm">{{textoBoton}}</button>&nbsp;
-        <button type="reset" class="btn btn-danger btn-sm">Cancelar</button>
-      </p>
-    </form>
-  </div>
-</div>
-</div>
-</div>
-</div>
 
 </header>
 <div class="slider_area">
