@@ -1,32 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
 import { map } from 'rxjs';
-import { IDetalleReserva } from '../model/iDetalleReserva';
+import { IDetalleReserva } from '../pages/model/iDetalleReserva';
+import { ResponseLista } from '../pages/model/ResponseLista';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DetallereservaService {
+export class DetalleReservaService {
 
   URL ="http://localhost:8080/detallereserva"
   constructor(private http:HttpClient) { }
 
-  getDetallereservas (){
-    return this.http.get<IDetalleReserva>(this.URL);
+  getDetalleReservas(){
+    return this.http.get<ResponseLista>(this.URL+"/lista");
   }
-  getDetallereserva (id_detareser:any){
-    return this.http.get<IDetalleReserva>(`${this.URL}/${id_detareser}`);
-  }
-  insertarDetallereserva(dere:IDetalleReserva){
-    return this.http.post<IDetalleReserva>(this.URL,dere)
+
+  insertarDetalleReserva(dere:IDetalleReserva){ 
+    return this.http.post<ResponseLista>(this.URL+"/insertar",dere)
     .pipe(map(emp=>dere));
   }
-  actualizarDetallereserva(dere:IDetalleReserva){
-    return this.http.put<IDetalleReserva>(this.URL,dere)
+
+
+  actualizarDetalleReserva(dere:IDetalleReserva){
+    return this.http.put<ResponseLista>(`${this.URL}/actualizar/${dere.id_detareser}`,dere)
     .pipe(map(emp=>dere));
   }
-  eliminarDetallereserva(id_detareser: number) {
-    return this.http.delete(`${this.URL}/${id_detareser}`);
+
+  eliminarDetalleReserva(id_detareser: number) {
+    return this.http.delete<ResponseLista>(`${this.URL}/eliminar/${id_detareser}`)
+    .pipe(map(response => response));
 }
 }
