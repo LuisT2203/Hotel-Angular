@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { HabitacionService } from '../../service/habitacion.service';
-import { Ihabitacion } from '../../model/iHabitacion';
-import { CommonModule, NgClass, NgFor } from '@angular/common';
+import { IHabitacion } from '../../pages/model/iHabitacion';
+import { NgClass, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Habitacion } from '../../model/habitacion';
-import { AuthService } from '../../service/auth.service';
-import { RouterLink } from '@angular/router';
+import { Habitacion } from '../../pages/model/habitacion';
+import { ResponseLista } from '../../pages/model/ResponseLista';
+import { error } from 'console';
 
 
 @Component({
   selector: 'app-habitaciones',
   standalone: true,
-  imports: [NgFor,FormsModule,NgClass,CommonModule,RouterLink],
+  imports: [NgFor,FormsModule,NgClass],
   templateUrl: './habitaciones.component.html',
   styleUrl: './habitaciones.component.css'
 })
+
 export class HabitacionesComponent implements OnInit {
+  constructor(private service:HabitacionService){}
 
-  constructor(private service:HabitacionService,public authService: AuthService){}
-
-  habitaciones: Ihabitacion[]=[]
+  habitaciones: IHabitacion[]=[]
   textoBoton ="Agregar";
   habitacion = new Habitacion();
   insUpd = true;
@@ -28,48 +28,65 @@ export class HabitacionesComponent implements OnInit {
   ngOnInit(): void {
     this.getHabitaciones();
   }
+
   resetForm(){
     this.habitacion = new Habitacion();
     this.insUpd=true;
     this.textoBoton="Agregar";
   }
+
   getHabitaciones(){
     this.service.getHabitaciones().subscribe(
-      (result:any)=>this.habitaciones=result
+      (result: ResponseLista) => {
+        this.habitaciones = result.object; // Asigna la lista de Habitaciones a la propiedad habitaciones
+      },
+      (error: any) =>{
+        console.error("Error al obtener las habitaciones: ", error)
+      }
     );
   }
-  editar(hab: Ihabitacion){
-    this.textoBoton ="Actualizar";
-    this.insUpd = false;
-    this,this.service.getHabitacion(hab.nro_habi).subscribe(
-      (data:any)=> this.habitacion = data
-    );
+
+  editar(hab: IHabitacion){
+    this.textoBoton ="Actualizar"; // Cambiar el texto del botón a "Actualizar"
+    this.insUpd = false; // Indica que el formulario esta en modo para actualizar
+    this.habitacion = {
+      nro_habi: hab.nro_habi,
+      descripcion: hab.descripcion,
+      estado: hab.estado,
+      precio_habi: hab.precio_habi
+      
+    };
   }
 
   agregar(){
     if(this.insUpd){
+      // Logica para agregar una nueva habitacion
       this.service.insertarHabitacion(this.habitacion).subscribe(
-          (resp)=>{
-            this.getHabitaciones();
-            this.insUpd=false;
-
-
+          () => {
+            this.getHabitaciones(); //Actualiza la lista despues de agregar
+            this.resetForm; // Resetea el formulario
+          },
+          (error) =>{
+            console.error("Error al agregar habitacion: ", error); //En caso de error que lo muestre en consola
           }
       );
-
-    }else{
+    } else{
+      //Lógica para actualizar la habitacion existente
       this.service.actualizarHabitacion(this.habitacion).subscribe(
-        (resp)=>{
-          this.getHabitaciones();
-          this.insUpd=true;
-
-
+        (response) => {
+          console.log("Habitación actualizada", response);
+          this.getHabitaciones(); //Actualizar la lista despues de actaualizar
+          this.resetForm(); //Resetea el formulario
+    },
+    (error) => {
+      console.error("Error al actualizar la habitacion: ", error); //En caso de error que sea mostrado en consola
     }
   );
   }
-  this.textoBoton ="Agregar";
  }
- eliminar(hab: Ihabitacion) {
+
+ 
+ eliminar(hab: IHabitacion) {
   if (confirm("¿Estás seguro de eliminar esta habitación?")) {
       this.service.eliminarHabitacion(hab.nro_habi).subscribe(
           () => {
