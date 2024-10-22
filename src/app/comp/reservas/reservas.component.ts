@@ -68,11 +68,11 @@ export class ReservasComponent implements OnInit {
       }
     );
   }
-  getHabitaciones(): void {
+  getHabitaciones() {
     this.habiService.getHabitaciones().subscribe(
-      (result: Ihabitacion[]) => {
+      (result: any) => {
         // Asigna el resultado a la lista completa de habitaciones
-        this.habitaciones = result;
+        this.habitaciones = result.object;
 
         // Filtra solo las habitaciones que están "Disponibles"
         this.habitaciones = this.habitaciones.filter(habitacion => habitacion.estado === 'Disponible');

@@ -31,7 +31,7 @@ export class EmpleadosComponent implements OnInit{
 
   getEmpleados(){
     this.service.getEmpleados().subscribe(
-      (data:any)=>this.empleados=data
+      (data:any)=>this.empleados=data.object
     );
   }
   editar(emp: IEmpleado){

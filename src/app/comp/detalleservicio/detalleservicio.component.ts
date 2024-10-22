@@ -45,22 +45,22 @@ export class DetalleservicioComponent implements OnInit {
 
   getdetalleservicios(){
     this.service.getDetalleServicios().subscribe(
-      (data:any)=>this.detalleservicios=data
+      (data:any)=>this.detalleservicios=data.object
     );
   }
   getreservas(){
     this.serviceR.getReservas().subscribe(
-      (result:any)=>this.reservas=result
+      (result:any)=>this.reservas=result.object
     );
   }
   getEmpleados(){
     this.serviceE.getEmpleados().subscribe(
-      (data:any)=>this.empleados=data
+      (data:any)=>this.empleados=data.object
     );
   }
   getservicios(){
     this.serviceSer.getServicios().subscribe(
-      (result:any)=>this.servicios=result
+      (result:any)=>this.servicios=result.object
     );
   }
   editar(dese: IDetalleServicio){

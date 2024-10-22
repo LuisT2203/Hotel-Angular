@@ -35,7 +35,7 @@ export class HabitacionesComponent implements OnInit {
   }
   getHabitaciones(){
     this.service.getHabitaciones().subscribe(
-      (result:any)=>this.habitaciones=result
+      (result:any)=>this.habitaciones=result.object
     );
   }
   editar(hab: Ihabitacion){

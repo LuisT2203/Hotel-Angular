@@ -46,12 +46,12 @@ export class DetallereservaComponent  implements OnInit{
   }
   getHabitaciones(){
     this.habiService.getHabitaciones().subscribe(
-      (result:any)=>this.habitaciones=result
+      (result:any)=>this.habitaciones=result.object
     );
   }
   getdetallereserva(){
     this.detaService.getDetallereservas().subscribe(
-      (result:any)=>this.detallereservas=result
+      (result:any)=>this.detallereservas=result.object
     );
   }
   editar(dere: IDetalleReserva){

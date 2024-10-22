@@ -2,27 +2,28 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IEmpleado } from '../model/iEmpleado';
 import { map } from 'rxjs';
+import { MensajeResponse } from '../model/MensajeResponse';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService {
   URL ="http://localhost:8080/empleado"
-  private LOGIN_URL = 'http://localhost:8080/api/usuario/save';
+
   constructor(private http:HttpClient) { }
 
   getEmpleados (){
-    return this.http.get<IEmpleado>(this.URL);
+    return this.http.get<MensajeResponse>(this.URL+"/lista");
   }
-  getEmpleado (Id_emp:any){
-    return this.http.get<IEmpleado>(`${this.URL}/${Id_emp}`);
+  getEmpleado (id_emp:any){
+    return this.http.get<IEmpleado>(`${this.URL}/${id_emp}`);
   }
   insertarEmpleado(emple:IEmpleado){
-    return this.http.post<IEmpleado>(this.URL,emple)
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",emple)
     .pipe(map(emp=>emple));
   }
   actualizarEmpleado(emple:IEmpleado){
-    return this.http.put<IEmpleado>(this.URL,emple)
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",emple)
     .pipe(map(emp=>emple));
   }
   eliminarEmpleado(Id_emp: number) {

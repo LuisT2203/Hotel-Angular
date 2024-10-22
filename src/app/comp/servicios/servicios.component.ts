@@ -35,12 +35,15 @@ export class ServiciosComponent implements OnInit {
   }
   getservicios(){
     this.service.getServicios().subscribe(
-      (result:any)=>this.servicios=result.object
-    );
+      (result:any)=>{this.servicios=result.object;
+      },
+      error => {
+        console.error('Error al obtener las reservas', error);
+      });
   }
   getEmpleados(){
     this.empService.getEmpleados().subscribe(
-      (data:any)=>this.empleados=data
+      (data:any)=>this.empleados=data.object
     );
   }
   editar(ser: IServicio){
