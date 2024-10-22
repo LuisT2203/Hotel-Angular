@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DetalleservicioService } from '../../service/detalleservicio.service';
-import { IDetalleServicio } from '../../model/iDetalleServicio';
-import { DetalleServicio } from '../../model/detalleservicio';
+import { IDetalleServicio } from '../../pages/model/iDetalleServicio';
+import { DetalleServicio } from '../../pages/model/detalleservicio';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ServicioService } from '../../service/servicio.service';
 import { ReservaService } from '../../service/reserva.service';
 import { EmpleadoService } from '../../service/empleado.service';
-import { IReserva } from '../../model/iReserva';
-import { IEmpleado } from '../../model/iEmpleado';
-import { IServicio } from '../../model/iServicio';
+import { IReserva } from '../../pages/model/iReserva';
+import { IEmpleado } from '../../pages/model/iEmpleado';
+import { IServicio } from '../../pages/model/iServicio';
+import { ResponseLista } from '../../pages/model/ResponseLista';
 
 @Component({
   selector: 'app-detalleservicio',
@@ -32,10 +33,10 @@ export class DetalleservicioComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getdetalleservicios();
-    this.getreservas();
+    this.getDetalleServicios();
+    this.getReservas();
     this.getEmpleados();
-    this.getservicios();
+    this.getServicios();
   }
   resetForm(){
     this.detalleservicio = new DetalleServicio();
@@ -43,88 +44,90 @@ export class DetalleservicioComponent implements OnInit {
     this.textoBoton="Agregar";
   }
 
-  getdetalleservicios(){
+  getDetalleServicios(){
     this.service.getDetalleServicios().subscribe(
-      (data:any)=>this.detalleservicios=data
+      (result: ResponseLista) => {
+        this.detalleservicios= result.object;
+      },
+      (error: any) => {
+        console.error("Error al obtener Detalle Servicio", error);
+      }
     );
   }
-  getreservas(){
+  getReservas(){
     this.serviceR.getReservas().subscribe(
-      (result:any)=>this.reservas=result
+      (result: ResponseLista) => {
+        this.reservas = result.object
+      },
+      (error: any) => {
+        console.error("Error al obtener las reservas", error);
+      }
     );
   }
   getEmpleados(){
     this.serviceE.getEmpleados().subscribe(
-      (data:any)=>this.empleados=data
+      (result: ResponseLista) => {
+        this.empleados = result.object
+      },
+      (error: any) => {
+        console.error("Error al obtener empleados", error);
+      }
     );
   }
-  getservicios(){
+  getServicios(){
     this.serviceSer.getServicios().subscribe(
-      (result:any)=>this.servicios=result
+      (result: ResponseLista) => {
+        this.servicios = result.object
+      },
+      (error: any) => {
+        console.error("Error al obtener Servicios", error);
+      }
     );
   }
   editar(dese: IDetalleServicio){
     this.textoBoton ="Actualizar";
     this.insUpd = false;
-    this.service.getDetalleServicio(dese.id_detaserv).subscribe(
-      (data:any)=> {
-        this.detalleservicio = data;
-
-        // Buscamos la reserva correspondiente y la asignamos si es válida
-        const reservaEncontrada = this.reservas.find(r => r.nro_reserva === dese.reserva.nro_reserva);
-        if (reservaEncontrada) {
-          this.detalleservicio.reserva = reservaEncontrada;
-        } else {
-          console.error('Reserva no encontrada:', dese.reserva);
-        }
-
-        // Buscamos el servicio correspondiente y lo asignamos si es válido
-        const servicioEncontrado = this.servicios.find(s => s.id_servicio === dese.servicio.id_servicio);
-        if (servicioEncontrado) {
-          this.detalleservicio.servicio = servicioEncontrado;
-        } else {
-          console.error('Servicio no encontrado:', dese.servicio);
-        }
-
-        // Buscamos al empleado correspondiente y lo asignamos si es válido
-        const empleadoEncontrado = this.empleados.find(e => e.id_emp === dese.empleado.id_emp);
-        if (empleadoEncontrado) {
-          this.detalleservicio.empleado = empleadoEncontrado;
-        } else {
-          console.error('Empleado no encontrado:', dese.empleado);
-        }
-      }
-    );
+    this.detalleservicio = {
+      id_detaserv: dese.id_detaserv,
+      estado_serv: dese.estado_serv,
+      hora_serv: dese.hora_serv,
+      empleado: dese.empleado,
+      reserva: dese.reserva,
+      servicio: dese.servicio
+    }
   }
 
   agregar(){
     if(this.insUpd){
       this.service.insertarDetalleServicio(this.detalleservicio).subscribe(
-          (resp)=>{
-            this.getdetalleservicios();
-            this.insUpd=false;
-
-
+          ()=>{
+            this.getDetalleServicios();
+            /* this.insUpd=false; */
+            this.resetForm();
+          },
+          (error) => {
+            console.error("Error al agregar el Detalle Servicio:", error); //En caso de error
           }
       );
-
     }else{
       this.service.actualizarDetalleServicio(this.detalleservicio).subscribe(
-        (resp)=>{
-          this.getdetalleservicios();
-          this.insUpd=true;
-
-
-    }
+        (response)=>{
+          console.log("Detalle Reserva actualizado:", response);
+          this.getDetalleServicios();
+          /* this.insUpd=false; */
+          this.resetForm(); // Resetea el formulario
+        },
+        (error) => {
+          console.error("Error al actualizar servicio:", error); //En caso de error
+        }
   );
   }
-  this.textoBoton ="Agregar";
  }
  eliminar(dese: IDetalleServicio) {
   if (confirm("¿Estás seguro de eliminar este detalleservicio?")) {
       this.service.eliminarDetalleServicio(dese.id_detaserv).subscribe(
           () => {
-              this.getdetalleservicios(); // Actualizar la lista después de eliminar
+              this.getDetalleServicios(); // Actualizar la lista después de eliminar
           }
       );
   }
