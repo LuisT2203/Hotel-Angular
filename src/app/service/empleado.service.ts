@@ -1,31 +1,34 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { IEmpleado } from '../model/iEmpleado';
+import { IEmpleado } from '../pages/model/iEmpleado';
 import { map } from 'rxjs';
+import { ResponseLista } from '../pages/model/ResponseLista';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpleadoService {
-  URL ="http://localhost:8080/empleado"
-  private LOGIN_URL = 'http://localhost:8080/api/usuario/save';
+  URL ="http://localhost:8080/empleados"
   constructor(private http:HttpClient) { }
 
   getEmpleados (){
-    return this.http.get<IEmpleado>(this.URL);
+    return this.http.get<ResponseLista>(this.URL+"/lista");
   }
-  getEmpleado (Id_emp:any){
-    return this.http.get<IEmpleado>(`${this.URL}/${Id_emp}`);
-  }
+
+  // Agregar nuevo empleado
   insertarEmpleado(emple:IEmpleado){
-    return this.http.post<IEmpleado>(this.URL,emple)
+    return this.http.post<ResponseLista>(this.URL+"/insertar",emple)
     .pipe(map(emp=>emple));
   }
+
+  // Actualizar empleado
   actualizarEmpleado(emple:IEmpleado){
-    return this.http.put<IEmpleado>(this.URL,emple)
+    return this.http.put<ResponseLista>(`${this.URL}/actualizar/${emple.id_emp}`,emple)
     .pipe(map(emp=>emple));
   }
+
+  // Eliminar empleado
   eliminarEmpleado(Id_emp: number) {
-    return this.http.delete(`${this.URL}/${Id_emp}`);
+    return this.http.delete<ResponseLista>(`${this.URL}/eliminar/${Id_emp}`);
 }
 }
