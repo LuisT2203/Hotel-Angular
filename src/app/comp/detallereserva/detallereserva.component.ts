@@ -41,7 +41,7 @@ export class DetallereservaComponent  implements OnInit{
   }
   getreservas(){
     this.serviceR.getReservas().subscribe(
-      (result:any)=>this.reservas=result
+      (result:any)=>this.reservas=result.object
     );
   }
   getHabitaciones(){

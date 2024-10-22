@@ -20,7 +20,7 @@ export class DetallereservaService {
     return this.http.get<IDetalleReserva>(`${this.URL}/${id_detareser}`);
   }
   insertarDetallereserva(dere:IDetalleReserva){
-    return this.http.post<MensajeResponse>(this.URL+"/insertar",dere)
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",dere)
     .pipe(map(emp=>dere));
   }
   actualizarDetallereserva(dere:IDetalleReserva){

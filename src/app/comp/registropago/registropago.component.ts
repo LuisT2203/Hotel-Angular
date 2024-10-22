@@ -39,12 +39,12 @@ export class RegistropagoComponent implements OnInit {
   }
   getreservas(){
     this.serviceR.getReservas().subscribe(
-      (result:any)=>this.reservas=result
+      (result:any)=>this.reservas=result.object
     );
   }
   getPagos(){
     this.service.getPagos().subscribe(
-      (result:any)=>this.pagos=result
+      (result:any)=>this.pagos=result.object
     );
   }
   editar(pa: IRegistroPago){
