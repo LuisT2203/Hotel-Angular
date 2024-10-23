@@ -18,15 +18,14 @@ export class ReservaService {
   getReserva (nro_reserva:any){
     return this.http.get<IReserva>(`${this.URL}/${nro_reserva}`);
   }
-  insertarReserva(res:IReserva){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",res)
-    .pipe(map(emp=>res));
+  insertarReserva(res: IReserva) {
+    return this.http.post<MensajeResponse>(this.URL + "/registrar", res);
   }
-  actualizarReserva(res:IReserva){
-    return this.http.put<MensajeResponse>(this.URL+"/registrar",res)
-    .pipe(map(emp=>res));
+
+  actualizarReserva(res: IReserva) {
+    return this.http.put<MensajeResponse>(this.URL + "/actualizar", res);
   }
   eliminarReserva(nro_reserva: number) {
-    return this.http.delete(`${this.URL}/${nro_reserva}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${nro_reserva}`);
 }
 }

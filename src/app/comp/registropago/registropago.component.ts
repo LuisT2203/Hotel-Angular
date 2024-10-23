@@ -6,6 +6,9 @@ import { IReserva } from '../../model/iReserva';
 import { ReservaService } from '../../service/reserva.service';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { MensajeResponse } from '../../model/MensajeResponse';
+import { IServicio } from '../../model/iServicio';
 
 @Component({
   selector: 'app-registropago',
@@ -15,7 +18,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './registropago.component.css'
 })
 export class RegistropagoComponent implements OnInit {
-  constructor(private service:RegistropagoService, private serviceR:ReservaService){}
+  constructor(private service:RegistropagoService, private serviceR:ReservaService,
+    private toastr: ToastrService
+  ){}
 
   pagos: IRegistroPago[]=[]
   reservas: IReserva[]=[]
@@ -44,7 +49,14 @@ export class RegistropagoComponent implements OnInit {
   }
   getPagos(){
     this.service.getPagos().subscribe(
-      (result:any)=>this.pagos=result.object
+      (result:any)=>{
+        this.pagos=result.object
+
+      },
+      error => {
+        console.error('Error al obtener los pagos', error);
+        this.toastr.error(error.error, 'Error');
+      }
     );
   }
   editar(pa: IRegistroPago){
@@ -66,21 +78,27 @@ export class RegistropagoComponent implements OnInit {
   agregar(){
     if(this.insUpd){
       this.service.insertarPago(this.pago).subscribe(
-          (resp)=>{
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.getPagos();
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 
     }else{
       this.service.actualizarPago(this.pago).subscribe(
-        (resp)=>{
+        (resp: MensajeResponse)=>{
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getPagos();
           this.insUpd=true;
-
-
+    },
+    (error) => {
+      console.error('Error al actualizar:', error);
+      this.toastr.error(error.error.mensaje, 'Error');
     }
   );
   }
@@ -89,8 +107,13 @@ export class RegistropagoComponent implements OnInit {
  eliminar(pa: IRegistroPago) {
   if (confirm("¿Estás seguro de eliminar esta habitación?")) {
       this.service.eliminarPago(pa.id_pago).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.getPagos(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }
@@ -104,5 +127,10 @@ calcularMonto() {
   // Suma los precios y multiplica por la cantidad de días
   this.pago.monto = (precioServicio + precioHabitacion) * cantidadDias;
 }
+calcularTotalServicios(servicios: IServicio[]): number {
+  return servicios.reduce((total, servicio) => total + servicio.precio, 0);
+}
 
 }
+
+

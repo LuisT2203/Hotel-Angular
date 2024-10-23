@@ -20,14 +20,12 @@ export class DetalleservicioService {
     return this.http.get<IDetalleServicio>(`${this.URL}/${id_detaserv}`);
   }
   insertarDetalleServicio(dese:IDetalleServicio){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",dese)
-    .pipe(map(emp=>dese));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",dese);
   }
   actualizarDetalleServicio(dese:IDetalleServicio){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",dese)
-    .pipe(map(emp=>dese));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",dese);
   }
   eliminarDetalleServicio(id_detaserv: number) {
-    return this.http.delete(`${this.URL}/${id_detaserv}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${id_detaserv}`);
 }
 }

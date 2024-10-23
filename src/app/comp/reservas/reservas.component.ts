@@ -14,6 +14,7 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../service/auth.service';
 import { MensajeResponse } from '../../model/MensajeResponse';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reservas',
@@ -25,7 +26,7 @@ import { MensajeResponse } from '../../model/MensajeResponse';
 export class ReservasComponent implements OnInit {
   constructor(private service:ReservaService,private habiService:HabitacionService,
     private hueService:HuespedService, private empService:EmpleadoService,
-    private serService:ServicioService, private authService: AuthService
+    private serService:ServicioService, private authService: AuthService,private toastr: ToastrService
   ){}
 
   reservas: IReserva[]=[]
@@ -65,6 +66,7 @@ export class ReservasComponent implements OnInit {
       },
       error => {
         console.error('Error al obtener las reservas', error);
+        this.toastr.error(error.error, 'Error');
       }
     );
   }
@@ -117,6 +119,7 @@ export class ReservasComponent implements OnInit {
       (data:any)=> {
         this.reserva = data;
 
+
         // Buscamos el huésped correspondiente y lo asignamos si es válido
         const huespedEncontrado = this.huespedes.find(h => h.id_huesped === res.huesped.id_huesped);
         if (huespedEncontrado) {
@@ -148,17 +151,27 @@ export class ReservasComponent implements OnInit {
     if (this.insUpd) {
       // Si estamos insertando, solo agregamos la nueva reserva
       this.service.insertarReserva(this.reserva).subscribe(
-        (resp) => {
+        (resp: MensajeResponse) => {
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getreservas();
           this.insUpd = false;
+        },
+        (error) => {
+          console.error('Error al agregar:', error);
+          this.toastr.error(error.error, 'Error');
         }
       );
     } else {
       // Si estamos actualizando, evitamos duplicados en la reserva
       this.service.actualizarReserva(this.reserva).subscribe(
-        (resp) => {
+        (resp: MensajeResponse) => {
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getreservas();
           this.insUpd = true;
+        },
+        (error) => {
+          console.error('Error al actualizar:', error);
+          this.toastr.error(error.error, 'Error');
         }
       );
     }
@@ -167,8 +180,13 @@ export class ReservasComponent implements OnInit {
  eliminar(res: IReserva) {
   if (confirm("¿Estás seguro de eliminar esta reserva?")) {
       this.service.eliminarReserva(res.nro_reserva).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.getreservas(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }

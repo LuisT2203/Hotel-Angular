@@ -130,6 +130,8 @@ export class AuthService {
   logout(): void{
     localStorage.removeItem(this.tokenKey);
     localStorage.removeItem(this.refreshtokenKey);
+    localStorage.removeItem('userType');
+    localStorage.removeItem('userEmail');
     this.router.navigate(['/login'])
   }
 }

@@ -20,14 +20,12 @@ export class DetallereservaService {
     return this.http.get<IDetalleReserva>(`${this.URL}/${id_detareser}`);
   }
   insertarDetallereserva(dere:IDetalleReserva){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",dere)
-    .pipe(map(emp=>dere));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",dere);
   }
   actualizarDetallereserva(dere:IDetalleReserva){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",dere)
-    .pipe(map(emp=>dere));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",dere);
   }
   eliminarDetallereserva(id_detareser: number) {
-    return this.http.delete(`${this.URL}/${id_detareser}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${id_detareser}`);
 }
 }

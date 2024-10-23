@@ -72,7 +72,7 @@
       <label class="form-label" for="nombre">Nombre</label>
       <input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="servicio.nombre" >
       <label class="form-label" for="precio">Precio</label>
-      <input type="text" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" >
+      <input type="number" id="precio" name="precio" class="form-control" [(ngModel)]="servicio.precio" >
       <label class="form-label" for="empleado">Empleado</label>
               <select [(ngModel)]="servicio.empleado" id="empleado" name="empleado" class="form-control">
                 @for (e of empleados; track e.id_emp) {

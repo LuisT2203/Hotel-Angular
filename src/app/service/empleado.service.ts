@@ -19,14 +19,12 @@ export class EmpleadoService {
     return this.http.get<IEmpleado>(`${this.URL}/${id_emp}`);
   }
   insertarEmpleado(emple:IEmpleado){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",emple)
-    .pipe(map(emp=>emple));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",emple);
   }
   actualizarEmpleado(emple:IEmpleado){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",emple)
-    .pipe(map(emp=>emple));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",emple);
   }
   eliminarEmpleado(Id_emp: number) {
-    return this.http.delete(`${this.URL}/${Id_emp}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${Id_emp}`);
 }
 }

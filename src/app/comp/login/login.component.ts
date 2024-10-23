@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../service/auth.service';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,8 @@ export class LoginComponent {
   correo: string ="";
   clave: string ="";
 
-  constructor(private http: HttpClient,private router: Router,private authService: AuthService,@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(private http: HttpClient,private router: Router,private authService: AuthService,
+    @Inject(PLATFORM_ID) private platformId: Object,private toastr: ToastrService) {}
 
   isBrowser(): boolean {
     return isPlatformBrowser(this.platformId);
@@ -29,7 +31,6 @@ export class LoginComponent {
         const token = response.token;
         const payload = JSON.parse(atob(token.split('.')[1]));
         const tipo = payload.tipo;
-
         this.setUserType(tipo);
 
         if(tipo === 'admin'){
@@ -39,7 +40,11 @@ export class LoginComponent {
         }
 
       },
-      error: (err) => console.error('Login Fallido', err)
+      error: (error) => {
+        console.error('Login Fallido', error);
+        // Mostrar el mensaje de error que viene del backend
+        this.toastr.error(error.error, 'Error de autenticación');
+      }
     })
   }
   private setUserType(tipo: string): void {

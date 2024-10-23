@@ -4,6 +4,8 @@ import { IHuesped } from '../../model/iHuesped';
 import { Huesped } from '../../model/huesped';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { MensajeResponse } from '../../model/MensajeResponse';
 
 @Component({
   selector: 'app-huespeds',
@@ -14,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class HuespedsComponent implements OnInit {
 
-   constructor(private service:HuespedService){}
+   constructor(private service:HuespedService,private toastr: ToastrService){}
 
   huespedes: IHuesped[]=[]
   textoBoton ="Agregar";
@@ -32,7 +34,14 @@ export class HuespedsComponent implements OnInit {
   }
   gethuespedes(){
     this.service.getHuespedes().subscribe(
-      (result:any)=>this.huespedes=result.object
+      (result:any)=>{
+        this.huespedes=result.object
+
+      },
+      error => {
+        console.error('Error al obtener los huespeds', error);
+        this.toastr.error(error.error, 'Error');
+      }
     );
   }
   editar(hue: IHuesped){
@@ -46,21 +55,26 @@ export class HuespedsComponent implements OnInit {
   agregar(){
     if(this.insUpd){
       this.service.insertarHuesped(this.huesped).subscribe(
-          (resp)=>{
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.gethuespedes();
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 
     }else{
       this.service.actualizarHuesped(this.huesped).subscribe(
-        (resp)=>{
+        (respresp: MensajeResponse)=>{
           this.gethuespedes();
           this.insUpd=true;
-
-
+    },
+    (error) => {
+      console.error('Error al agregar:', error);
+      this.toastr.error(error.error.mensaje, 'Error');
     }
   );
   }
@@ -69,8 +83,13 @@ export class HuespedsComponent implements OnInit {
  eliminar(hue: IHuesped) {
   if (confirm("¿Estás seguro de eliminar esta huesped?")) {
       this.service.eliminarHuesped(hue.id_huesped).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.gethuespedes(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }

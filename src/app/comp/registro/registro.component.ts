@@ -4,6 +4,8 @@ import { Huesped } from '../../model/huesped';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { MensajeResponse } from '../../model/MensajeResponse';
 
 @Component({
   selector: 'app-registro',
@@ -14,7 +16,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class RegistroComponent {
 
-  constructor(private service:HuespedService) {}
+  constructor(private service:HuespedService,private toastr: ToastrService) {}
   huesped = new Huesped();
   insUpd = true;
   textoBoton ="Registrarse";
@@ -27,11 +29,13 @@ export class RegistroComponent {
   agregar(){
     if(this.insUpd){
       this.service.insertarHuesped(this.huesped).subscribe(
-          (resp)=>{
-
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 

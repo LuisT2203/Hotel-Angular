@@ -10,6 +10,8 @@ import { EmpleadoService } from '../../service/empleado.service';
 import { IReserva } from '../../model/iReserva';
 import { IEmpleado } from '../../model/iEmpleado';
 import { IServicio } from '../../model/iServicio';
+import { ToastrService } from 'ngx-toastr';
+import { MensajeResponse } from '../../model/MensajeResponse';
 
 @Component({
   selector: 'app-detalleservicio',
@@ -20,7 +22,7 @@ import { IServicio } from '../../model/iServicio';
 })
 export class DetalleservicioComponent implements OnInit {
   constructor(private service:DetalleservicioService, private serviceSer:ServicioService,
-    private serviceR: ReservaService,private serviceE:EmpleadoService
+    private serviceR: ReservaService,private serviceE:EmpleadoService,private toastr: ToastrService
   ){}
   detalleservicios : IDetalleServicio[]=[]
   reservas: IReserva[]=[]
@@ -45,7 +47,14 @@ export class DetalleservicioComponent implements OnInit {
 
   getdetalleservicios(){
     this.service.getDetalleServicios().subscribe(
-      (data:any)=>this.detalleservicios=data.object
+      (data:any)=>{
+        this.detalleservicios=data.object
+
+      },
+      error => {
+        console.error('Error al obtener los detalle servicio', error);
+        this.toastr.error(error.error, 'Error');
+      }
     );
   }
   getreservas(){
@@ -100,21 +109,27 @@ export class DetalleservicioComponent implements OnInit {
   agregar(){
     if(this.insUpd){
       this.service.insertarDetalleServicio(this.detalleservicio).subscribe(
-          (resp)=>{
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.getdetalleservicios();
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 
     }else{
       this.service.actualizarDetalleServicio(this.detalleservicio).subscribe(
-        (resp)=>{
+        (resp: MensajeResponse)=>{
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getdetalleservicios();
           this.insUpd=true;
-
-
+    },
+    (error) => {
+      console.error('Error al actualizar:', error);
+      this.toastr.error(error.error, 'Error');
     }
   );
   }
@@ -123,8 +138,13 @@ export class DetalleservicioComponent implements OnInit {
  eliminar(dese: IDetalleServicio) {
   if (confirm("¿Estás seguro de eliminar este detalleservicio?")) {
       this.service.eliminarDetalleServicio(dese.id_detaserv).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.getdetalleservicios(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }

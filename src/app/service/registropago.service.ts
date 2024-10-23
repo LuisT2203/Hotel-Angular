@@ -19,14 +19,12 @@ export class RegistropagoService {
     return this.http.get<IRegistroPago>(`${this.URL}/${Id_pago}`);
   }
   insertarPago(pago:IRegistroPago){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",pago)
-    .pipe(map(emp=>pago));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",pago);
   }
   actualizarPago(pago:IRegistroPago){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",pago)
-    .pipe(map(emp=>pago));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",pago);
   }
   eliminarPago(Id_pago: number) {
-    return this.http.delete(`${this.URL}/${Id_pago}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${Id_pago}`);
 }
 }

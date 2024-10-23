@@ -18,14 +18,12 @@ export class HabitacionService {
     return this.http.get<Ihabitacion>(`${this.URL}/${nro_habitacion}`);
   }
   insertarHabitacion(hab:Ihabitacion){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",hab)
-    .pipe(map(emp=>hab));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",hab);
   }
   actualizarHabitacion(hab:Ihabitacion){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",hab)
-    .pipe(map(emp=>hab));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",hab);
   }
   eliminarHabitacion(nro_habi: number) {
-    return this.http.delete(`${this.URL}/${nro_habi}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${nro_habi}`);
 }
 }

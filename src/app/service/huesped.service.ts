@@ -19,14 +19,12 @@ export class HuespedService {
     return this.http.get<IHuesped>(`${this.URL}/${id_huesped}`);
   }
   insertarHuesped(hue:IHuesped){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",hue)
-    .pipe(map(emp=>hue));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",hue);
   }
   actualizarHuesped(hue:IHuesped){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",hue)
-    .pipe(map(emp=>hue));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",hue);
   }
   eliminarHuesped(id_huesped: number) {
-    return this.http.delete(`${this.URL}/${id_huesped}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${id_huesped}`);
 }
 }

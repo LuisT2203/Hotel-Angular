@@ -9,6 +9,8 @@ import { HabitacionService } from '../../service/habitacion.service';
 import { IDetalleReserva } from '../../model/iDetalleReserva';
 import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+import { MensajeResponse } from '../../model/MensajeResponse';
 
 @Component({
   selector: 'app-detallereserva',
@@ -19,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class DetallereservaComponent  implements OnInit{
   constructor(private serviceR:ReservaService,private habiService:HabitacionService,
-    private detaService:DetallereservaService,
+    private detaService:DetallereservaService,private toastr: ToastrService
   ){}
   reservas: IReserva[]=[]
   habitaciones: Ihabitacion[]=[]
@@ -51,7 +53,14 @@ export class DetallereservaComponent  implements OnInit{
   }
   getdetallereserva(){
     this.detaService.getDetallereservas().subscribe(
-      (result:any)=>this.detallereservas=result.object
+      (result:any)=>{
+        this.detallereservas=result.object
+
+      },
+      error => {
+        console.error('Error al obtener los Detalles Reserva', error);
+        this.toastr.error(error.error, 'Error');
+      }
     );
   }
   editar(dere: IDetalleReserva){
@@ -80,21 +89,27 @@ export class DetallereservaComponent  implements OnInit{
   agregar(){
     if(this.insUpd){
       this.detaService.insertarDetallereserva(this.detallereserva).subscribe(
-          (resp)=>{
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.getdetallereserva();
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 
     }else{
       this.detaService.actualizarDetallereserva(this.detallereserva).subscribe(
-        (resp)=>{
+        (resp: MensajeResponse)=>{
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getdetallereserva();
           this.insUpd=true;
-
-
+    },
+    (error) => {
+      console.error('Error al actualizar:', error);
+      this.toastr.error(error.error, 'Error');
     }
   );
   }
@@ -103,8 +118,13 @@ export class DetallereservaComponent  implements OnInit{
  eliminar(dere: IDetalleReserva) {
   if (confirm("¿Estás seguro de eliminar esta reserva?")) {
       this.detaService.eliminarDetallereserva(dere.id_detareser).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.getdetallereserva(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }

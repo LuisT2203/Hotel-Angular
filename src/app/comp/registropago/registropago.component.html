@@ -59,7 +59,7 @@
   </div>
   <div class="container mt-4">
     <div class="modal fade" id="personalModal" tabindex="-1" aria-labelledby="personalModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-xl">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="personalModalLabel">{{insUpd ? 'Nuevo Pago' : 'Editar Pago'}}</h5>
@@ -70,12 +70,12 @@
       <input type="hidden" name="id_pago" id="id_pago" [(ngModel)]="pago.id_pago">
       <label class="form-label" for="reserva">Reserva</label>
       <select [(ngModel)]="pago.reserva" id="reserva" name="reserva" class="form-control">
-        @for (r of reservas; track r.nro_reserva){
-        <option [ngValue]="r">Nro Reserva:{{r.nro_reserva}}, Nombre {{r.huesped.nombre}} {{r.huesped.apellido}},
-          Cantidad de dias {{r.cant_dias}},<div *ngFor="let servicio of r.servicios">
-            Precio Servicio {{servicio.precio}}
-          </div>,Precio Habitacion{{r.habitacion.precio_habi}}</option>
-        }
+        <option *ngFor="let r of reservas" [ngValue]="r">
+          Nro Reserva: {{r.nro_reserva}}, Nombre: {{r.huesped.nombre}} {{r.huesped.apellido}},
+          Cantidad de días: {{r.cant_dias}},
+          Precio Servicios Total: {{calcularTotalServicios(r.servicios)}},
+          Precio Habitación: {{r.habitacion.precio_habi}}
+        </option>
       </select>
       <label class="form-label" for="precio">Precio Servicio</label>
       <input type="number" id="precio" name="precio" class="form-control" [(ngModel)]="pago.precio" >

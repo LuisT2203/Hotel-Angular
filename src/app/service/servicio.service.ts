@@ -19,14 +19,12 @@ export class ServicioService {
     return this.http.get<IServicio>(`${this.URL}/${id_servicio}`);
   }
   insertarServicio(ser:IServicio){
-    return this.http.post<MensajeResponse>(this.URL+"/registrar",ser)
-    .pipe(map(emp=>ser));
+    return this.http.post<MensajeResponse>(this.URL+"/registrar",ser);
   }
   actualizarServicio(ser:IServicio){
-    return this.http.put<MensajeResponse>(this.URL+"/actualizar",ser)
-    .pipe(map(emp=>ser));
+    return this.http.put<MensajeResponse>(this.URL+"/actualizar",ser);
   }
   eliminarServicio(id_servicio: number) {
-    return this.http.delete(`${this.URL}/${id_servicio}`);
+    return this.http.delete<MensajeResponse>(`${this.URL}/${id_servicio}`);
 }
 }

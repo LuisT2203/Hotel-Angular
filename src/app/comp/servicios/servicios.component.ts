@@ -6,6 +6,8 @@ import { NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EmpleadoService } from '../../service/empleado.service';
 import { IEmpleado } from '../../model/iEmpleado';
+import { MensajeResponse } from '../../model/MensajeResponse';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-servicios',
@@ -15,7 +17,8 @@ import { IEmpleado } from '../../model/iEmpleado';
   styleUrl: './servicios.component.css'
 })
 export class ServiciosComponent implements OnInit {
-  constructor(private service:ServicioService, private empService:EmpleadoService){}
+  constructor(private service:ServicioService, private empService:EmpleadoService,
+    private toastr: ToastrService){}
 
   empleados : IEmpleado[]=[]
   servicios: IServicio[]=[]
@@ -36,9 +39,11 @@ export class ServiciosComponent implements OnInit {
   getservicios(){
     this.service.getServicios().subscribe(
       (result:any)=>{this.servicios=result.object;
+
       },
       error => {
-        console.error('Error al obtener las reservas', error);
+        console.error('Error al obtener los servicios', error);
+        this.toastr.error(error.error, 'Error');
       });
   }
   getEmpleados(){
@@ -57,21 +62,27 @@ export class ServiciosComponent implements OnInit {
   agregar(){
     if(this.insUpd){
       this.service.insertarServicio(this.servicio).subscribe(
-          (resp)=>{
+          (resp: MensajeResponse)=>{
+            this.toastr.success(resp.mensaje, 'Éxito');
             this.getservicios();
             this.insUpd=false;
-
-
+          },
+          (error) => {
+            console.error('Error al agregar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
 
     }else{
       this.service.actualizarServicio(this.servicio).subscribe(
         (resp)=>{
+          this.toastr.success(resp.mensaje, 'Éxito');
           this.getservicios();
           this.insUpd=true;
-
-
+    },
+    (error) => {
+      console.error('Error al actualizar:', error);
+      this.toastr.error(error.error, 'Error');
     }
   );
   }
@@ -80,8 +91,13 @@ export class ServiciosComponent implements OnInit {
  eliminar(ser: IServicio) {
   if (confirm("¿Estás seguro de eliminar este servicio?")) {
       this.service.eliminarServicio(ser.id_servicio).subscribe(
-          () => {
+          (resp :MensajeResponse) => {
+            this.toastr.success(resp.mensaje, 'Éxito');
               this.getservicios(); // Actualizar la lista después de eliminar
+          },
+          (error) => {
+            console.error('Error al eliminar:', error);
+            this.toastr.error(error.error, 'Error');
           }
       );
   }
